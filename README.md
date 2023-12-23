@@ -16,22 +16,19 @@ TODO (once a docker package has been made)
 
 ### ❯ Development setup
 
-TODO: make a simple production setup
+You can initialize the backend with:
 
-Start the database using docker compose with:
+```bash
+# TODO: run migrations
+poetry run gunicorn 'pyneutrino:create_app()' --reload
+```
 
-    docker compose up -d
-
-By default, the connection url to the database is: `neutrino:neutrinopwd@localhost:3306/neutrino`
-
-<!-- TODO: add a start of the backend loop -->
-
-Finally, you can set up and start the frontend web server:
+At the same time, you can set up and start the frontend web server:
 
 ```bash
 cd frontend-src
 npm install
-npm run serve # FIXME
+ng serve --open # FIXME: check the commands once angular is setup
 ```
 
 The application is then available at [http://localhost:8080]
