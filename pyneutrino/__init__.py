@@ -3,6 +3,7 @@ import os
 from flask import Flask
 
 from .auth import register as register_auth
+from .db import db, migrate
 # from .chat import register as register_chat
 
 
@@ -11,8 +12,10 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
+        SQLALCHEMY_DATABASE_URI='sqlite:///db.sqlite',
     )
+    db.init_app(app)
+    migrate.init_app(app, db)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing

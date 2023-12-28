@@ -1,2 +1,3 @@
 .poetry
 *.pyc
+.coverage

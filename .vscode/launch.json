@@ -1,0 +1,20 @@
+{
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Frontend - Dev server",
+      "type": "chrome",
+      "request": "launch",
+      "preLaunchTask": "frontend-dev",
+      "url": "http://localhost:4200/",
+    },
+    {
+      "name": "Frontend - E2E server",
+      "type": "chrome",
+      "request": "launch",
+      "preLaunchTask": "frontend-e2e",
+      "url": "http://localhost:9876/debug.html"
+    }
+  ]
+}

@@ -32,3 +32,11 @@ ng serve --open # FIXME: check the commands once angular is setup
 ```
 
 The application is then available at [http://localhost:8080]
+
+### Tests
+
+To run the tests, you can execute the following commands:
+
+```
+poetry run tox
+```
