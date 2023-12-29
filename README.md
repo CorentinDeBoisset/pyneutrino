@@ -16,10 +16,16 @@ TODO (once a docker package has been made)
 
 ### ❯ Development setup
 
-You can initialize the backend with:
+At first, you should start the database:
 
 ```bash
-# TODO: run migrations
+docker compose up -d
+```
+
+You can initialize and start the backend with:
+
+```bash
+poetry run flask --app pyneutrino db upgrade
 poetry run gunicorn 'pyneutrino:create_app()' --reload
 ```
 

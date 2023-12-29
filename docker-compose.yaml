@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: rootpwd
+      POSTGRES_USER: root
+    volumes:
+      - database_data:/var/lib/mysql
+      - ./dev_db_init:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "127.0.0.1:5432:5432"
+
+volumes:
+  database_data:
