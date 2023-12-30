@@ -1,1 +1,278 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+	box-sizing: border-box;
+}
+:root {
+	/* colors */
+	--text-color: #333447;
+	--primary-color: rgba(217, 79, 4, 1);
+	--primary-light-color: rgba(242, 147, 37, 1);
+	--secondary-color: rgba(2, 82, 89, 1);
+	--secondary-light-color: rgba(0, 113, 114, 1);
+	--secondary-ulight-color: rgba(0, 113, 114, 1);
+	--light-color: rgba(252, 250, 242, 1);
+
+
+	--ultralight-gray-color: #F1F1F1;
+	--light-gray-color: lightgray;
+	--gray-color: gray;
+	--dark-gray-color: darkgray;
+
+	/* standard gutters */
+	/* --column-gutter: 1rem; */
+}
+
+html,
+button,
+input,
+select,
+textarea {
+	font-family: "aktiv-grotesk", sans-serif;
+	color: var(--text-color);
+}
+
+html,
+.fullheight {
+	height: 100%;
+}
+
+html {
+	background: radial-gradient(farthest-corner at 70% 70%, #fdfcf7 0%, #f8f5ed 100%);
+}
+
+.btn {
+	background-color: var(--secondary-light-color);
+	color: var(--light-color);
+	border: none;
+	padding: 0.4rem 1.5rem;
+	border-radius: 0.3rem;
+	cursor: pointer;
+	transition: background-color 0.1s ease-in-out, opacity 0.1s ease-in-out;
+	box-shadow: 0.05rem 0.05rem 0.2rem rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+	background-color: var(--secondary-color);
+}
+
+.btn:focus {
+	outline: solid 2px var(--secondary-light-color);
+	outline-offset: 2px;
+}
+
+.btn.inactive:focus {
+	background-color: var(--secondary-light-color);
+}
+
+.btn.inactive:focus {
+	outline: none;
+}
+
+.btn-danger {
+	background-color: var(--primary-color);
+	outline-color: var(--primary-color);
+}
+
+.btn-danger:hover {
+	background-color: var(--primary-light-color);
+}
+
+.btn-danger.inactive:hover {
+	background-color: var(--primary-color);
+}
+
+.btn.inactive {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.btn.loading {
+	position: relative;
+}
+
+.btn.loading:before, .btn-danger.loading:before {
+	content: " ";
+	display: block;
+	position: absolute;
+	top: 0.2rem;
+	left: -2rem;
+	width: 0.8rem;
+	height: 0.8rem;
+	margin: 4px;
+	border-radius: 50%;
+	border: 2px solid var(--secondary-light-color);
+	border-color: var(--secondary-light-color) var(--secondary-light-color) transparent;
+	animation: loader-spin 1s linear infinite;
+}
+@keyframes loader-spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+
+input[type=text], input:not([type]) {
+	outline: solid 2px transparent;
+	outline-offset: none;
+	padding: 0.4rem;
+	border-radius: 0.3rem;
+	border: solid 1px lightgrey;
+	box-shadow: 0.05rem 0.05rem 0.2rem rgba(0, 0, 0, 0.05);
+}
+
+input[type=text]:focus, input:not([type]):focus {
+	outline: solid 1px var(--secondary-light-color);
+	border: solid 1px var(--secondary-light-color)
+}
+
+
+.section-title {
+	color: var(--secondary-color);
+	font-size: 1.4rem;
+	font-weight: 400;
+}
+
+.mx-auto {
+	margin-left: auto;
+	margin-right: auto;
+}
+.mr-auto {
+	margin-right: auto;
+}
+.ml-auto {
+	margin-left: auto;
+}
+
+.flex-row {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+}
+.flex-row.wrap {
+	flex-wrap: wrap;
+}
+
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+.flex-row > * {
+	flex-shrink: 0;
+	width: 100%;
+	max-width: 100%;
+}
+.flex-column > * {
+	width: 100%;
+	max-width: 100%;
+}
+
+.flex-row.justify-center, .flex-column.justify-center {
+	justify-content: space-around;
+}
+.flex-row.justify-between, .flex-column.justify-between {
+	justify-content: space-between;
+}
+
+.flex-row.align-center, .flex-column.align-center {
+	align-items: center;
+}
+.flex-row.align-stretch, .flex-column.align-stretch {
+	align-items: stretch;
+}
+
+.col-12, .col-11, .col-10, .col-9, .col-8, .col-7, .col-6, .col-5, .col-4, .col-3, .col-2, .col-1 {
+	flex: 0 0 auto;
+}
+
+.col-auto {
+	flex: 0 0 auto;
+	width: auto;
+}
+.col {
+	flex: 1 0 0%;
+}
+
+.col-12 {
+	width: 100%;
+}
+.col-11 {
+	width: 91.66666667%;
+}
+.col-10 {
+	width: 83.33333333%;
+}
+.col-9 {
+	width: 75%
+}
+.col-8 {
+	width: 66.66666667%
+}
+.col-7 {
+	width: 58.33333333%
+}
+.col-6 {
+	width: 50%;
+}
+.col-5 {
+	width: 41.66666667%;
+}
+.col-4 {
+	width: 33.33333333%;
+}
+.col-3 {
+	width: 25%;
+}
+.col-2 {
+	width: 16.66666667%
+}
+.col-1 {
+	width: 8.33333333%
+}
+
+.text-right {
+	text-align: right;
+}
+.text-left {
+	text-align: left;
+}
+.text-center {
+	text-align: center;
+}
+
+progress {
+	width: 100%;
+	color: #007172;
+	appearance: none;
+	height: 0.3rem;
+}
+
+/* Firefox-specific code */
+progress {
+	border-radius: 0.3rem;
+	height: 0.3rem;
+	background-color: var(--light-gray-color);
+	border: none;
+}
+
+progress::-moz-progress-bar {
+	background-color: var(--secondary-color);
+	border-radius: 0.3rem;
+	transition: width 100ms ease;
+}
+
+/* Chrome-specific code */
+progress::-webkit-progress-bar {
+	border-radius: 0.3rem;
+	height: 0.3rem;
+	background-color: var(--gray-color);
+	border: none;
+}
+
+progress::-webkit-progress-value {
+	background-color: var(--secondary-color);
+	border-radius: 0.3rem;
+	transition: width 100ms ease;
+}

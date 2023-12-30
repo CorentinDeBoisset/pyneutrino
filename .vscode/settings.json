@@ -13,6 +13,12 @@
 	"[json]": {
 		"editor.tabSize": 2
 	},
+	"[html]": {
+		"editor.tabSize": 2
+	},
+	"[scss]": {
+		"editor.tabSize": 2
+	},
 	"[markdown]": {
 		"files.trimTrailingWhitespace": false,
 	}

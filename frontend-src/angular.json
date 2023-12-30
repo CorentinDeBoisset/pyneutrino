@@ -13,22 +13,29 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "fr-FR": {
+            "translation": "src/locale/messages.fr-FR.xlf",
+            "baseHref": "fr-FR"
+          }
+        }
+      },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/pyneutrino-frontend",
-            "index": "src/index.html",
-            "browser": "src/main.ts",
+            "main": "src/main.ts",
+            "assets": [
+              "src/static"
+            ],
             "polyfills": [
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
             "styles": [
               "src/styles.scss"
             ],
@@ -36,6 +43,14 @@
           },
           "configurations": {
             "production": {
+              "index": {
+                "input": "src/index_prod.html",
+                "output": "home.html"
+              },
+              "deployUrl": "static/",
+              "assets": [
+                { "input": "src/static", "glob": "**/*", "output": "." }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -51,6 +66,9 @@
               "outputHashing": "all"
             },
             "development": {
+              "index": {
+                "input": "src/index_dev.html"
+              },
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
@@ -68,7 +86,10 @@
               "buildTarget": "pyneutrino-frontend:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -86,8 +107,7 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "src/static"
             ],
             "styles": [
               "src/styles.scss"

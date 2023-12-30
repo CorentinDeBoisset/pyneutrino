@@ -1,0 +1,18 @@
+<form (submit)="submitRegistration($event)">
+  <label for="registration-email" i18n>Email</label>
+  <div>
+    <input id="registration-email" type="email" [formControl]="email" />
+  </div>
+  <label for="registration-username" i18n>Username</label>
+  <div>
+    <input id="registration-username" type="username" [formControl]="username" />
+  </div>
+  <label for="registration-password" i18n>Password</label>
+  <div>
+    <input id="registration-password" type="password" [formControl]="password" />
+  </div>
+  <div><input type="submit" i18n-value value="Submit"/></div>
+  <div ngIf="registrationError">
+    {{ registrationError }}
+  </div>
+</form>

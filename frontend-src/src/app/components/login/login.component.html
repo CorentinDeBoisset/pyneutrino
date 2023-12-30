@@ -1,0 +1,14 @@
+<form (submit)="submitLogin($event)">
+  <label for="login-email" i18n>Email</label>
+  <div>
+    <input id="login-email" type="email" [formControl]="email" />
+  </div>
+  <label for="login-password" i18n>Password</label>
+  <div>
+    <input id="login-password" type="password" [formControl]="password" />
+  </div>
+  <div><input type="submit" i18n-value value="Submit"/></div>
+  <div ngIf="loginError">
+    {{ loginError }}
+  </div>
+</form>

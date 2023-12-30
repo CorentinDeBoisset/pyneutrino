@@ -34,10 +34,10 @@ At the same time, you can set up and start the frontend web server:
 ```bash
 cd frontend-src
 npm install
-ng serve --open # FIXME: check the commands once angular is setup
+npm start
 ```
 
-The application is then available at [http://localhost:8080]
+The application is then available at [http://localhost:4200]
 
 ### Tests
 
@@ -46,3 +46,9 @@ To run the tests, you can execute the following commands:
 ```
 poetry run tox
 ```
+
+## ❯ Notice
+
+Some content from open-source libraries was used as sources:
+
+* [Twemoji](https://twemoji.twitter.com/) (CC-BY 4.0 Licence)

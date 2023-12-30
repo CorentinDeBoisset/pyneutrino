@@ -1,0 +1,9 @@
+<div>
+  <span i18n="locale-selector-label|An instruction to select a locale">Language:</span>
+  <span>&nbsp;</span>
+  <select [formControl]="selectedLocale">
+    <!-- The options must match the one configured in angular.json -->
+    <option value="fr-FR">🇫🇷 Français</option>
+    <option value="en-US">🇺🇸 English</option>
+  </select>
+</div>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48.98mm" height="51.08mm" version="1.1" viewBox="0 0 48.98 51.08" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(-91.436 -102.9)">
+<g fill="#712dad" stroke-width=".265" aria-label="ν">
+<path d="m96.254 115.57c-2.6481 0-4.8183 2.1723-4.8183 4.8204v28.773c0 2.6481 2.1703 4.8199 4.8183 4.8199h28.776c2.648 0 4.8199-2.1718 4.8199-4.8199v-25.726c-0.70697 0.1328-1.5074 0.22791-2.5781 0.29352v25.433c0 1.2649-0.97684 2.2438-2.2417 2.2438h-28.776c-1.2649 0-2.2422-0.97889-2.2422-2.2438v-28.773c0-1.2649 0.97734-2.2422 2.2422-2.2422h16.876c0.1777-0.82075 0.41834-1.6964 0.87695-2.5781z" color="#000000" fill="#f29325"/>
+<path d="m97.076 123.48 8.9332-1.9172s1.8409 6.0623 2.3906 9.1705c0.80608 4.5583 1.1839 13.967 1.1839 13.967 1.6503-1.853 2.9349-3.2069 4.3377-4.9477 0.61536-0.7636 1.1534-1.6195 1.8492-2.5543 0.96564-1.2974 4.9961-7.0928 5.6608-11.492 0.0646-0.42751 0.24471-1.5136 0.1573-2.2655-0.11235-0.96658-0.6683-1.2935-1.2774-1.6031-0.97129-0.49369-2.0123-0.84956-2.4385-2.1395-0.30211-0.9142 0.0783-2.4783 1.5713-3.0439 2.1028-0.79668 3.8498 0.84164 4.2383 2.1196 0.60159 1.9792 0.8402 4.5919-1.2991 9.7613-2.2464 5.4281-4.8147 9.332-8.0867 13.191-3.0986 3.6548-6.3132 6.7802-8.0224 8.5255l-1.1375 5e-3s-0.41854-9.1887-0.89047-13.761c-0.50746-4.9169-1.1881-7.908-1.7886-9.6587-0.92513-2.6972-2.2156-2.8361-5.1536-2.2852z" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="128.31" cy="111.48" r="1.9207" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="129.25" cy="117.54" r="1.9207" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="131.41" cy="114.94" r=".96036" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="129.74" cy="113.92" r=".57621" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="129.1" cy="120.33" r=".57621" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="119.7" cy="111.82" r=".57621" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="120.45" cy="104.55" r=".57621" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="131.84" cy="106.04" r=".96036" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="137.93" cy="109.28" r=".96036" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="121.66" cy="107.34" r=".96036" fill="#f29325" style="paint-order:markers stroke fill"/>
+<ellipse cx="126.62" cy="119.67" rx=".73874" ry=".73874" fill="none" stroke="#f29325" stroke-linejoin="round" stroke-width=".44324" style="paint-order:markers stroke fill"/>
+<ellipse cx="128.09" cy="114.68" rx=".73874" ry=".73874" fill="none" stroke="#f29325" stroke-linejoin="round" stroke-width=".44324" style="paint-order:markers stroke fill"/>
+<ellipse cx="123.86" cy="104.6" rx=".73874" ry=".73874" fill="none" stroke="#f29325" stroke-linejoin="round" stroke-width=".44324" style="paint-order:markers stroke fill"/>
+<ellipse cx="132.6" cy="109.54" rx=".73874" ry=".73874" fill="none" stroke="#f29325" stroke-linejoin="round" stroke-width=".44324" style="paint-order:markers stroke fill"/>
+<ellipse cx="119.43" cy="110.02" rx=".73874" ry=".73874" fill="none" stroke="#f29325" stroke-linejoin="round" stroke-width=".44324" style="paint-order:markers stroke fill"/>
+<ellipse cx="121.86" cy="110.3" rx=".73874" ry=".73874" fill="none" stroke="#f29325" stroke-linejoin="round" stroke-width=".44324" style="paint-order:markers stroke fill"/>
+<circle cx="125.99" cy="116.84" r=".96036" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="132.34" cy="117.22" r=".96036" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="119.54" cy="114.03" r=".96036" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="126.12" cy="113.92" r=".96036" fill="#f29325" style="paint-order:markers stroke fill"/>
+<ellipse cx="123.02" cy="113.31" rx="1.4499" ry="1.4499" fill="none" stroke="#f29325" stroke-linejoin="round" stroke-width=".94169" style="paint-order:markers stroke fill"/>
+<ellipse cx="124.85" cy="109.01" rx="1.4499" ry="1.4499" fill="none" stroke="#f29325" stroke-linejoin="round" stroke-width=".94169" style="paint-order:markers stroke fill"/>
+<circle cx="133.69" cy="113.08" r=".96036" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="128.18" cy="106.55" r=".57621" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="126.83" cy="103.48" r=".57621" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="130.53" cy="108.39" r=".57621" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="134.7" cy="115.22" r=".57621" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="131.39" cy="113.16" r=".57621" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="134.38" cy="108.01" r=".57621" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="139.84" cy="110.74" r=".57621" fill="#f29325" style="paint-order:markers stroke fill"/>
+<circle cx="136.73" cy="111.7" r=".57621" fill="#f29325" style="paint-order:markers stroke fill"/>
+</g>
+</g>
+</svg>
