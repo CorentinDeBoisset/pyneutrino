@@ -5,7 +5,6 @@ from pyneutrino.services.jsonschema import validate_schema
 from pyneutrino.db import db, UserAccount
 from datetime import datetime
 from uuid import uuid4
-from sqlalchemy import text
 from werkzeug.exceptions import Conflict
 
 RegistrationBp = Blueprint('registration', __name__, url_prefix="/api/register")

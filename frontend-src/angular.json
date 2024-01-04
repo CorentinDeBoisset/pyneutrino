@@ -49,7 +49,11 @@
               },
               "deployUrl": "static/",
               "assets": [
-                { "input": "src/static", "glob": "**/*", "output": "." }
+                {
+                  "input": "src/static",
+                  "glob": "**/*",
+                  "output": "."
+                }
               ],
               "budgets": [
                 {
@@ -114,11 +118,23 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

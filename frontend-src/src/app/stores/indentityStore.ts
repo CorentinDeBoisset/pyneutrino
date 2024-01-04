@@ -30,6 +30,7 @@ export class IdentityStore {
 
   restoreUserSession() {
     // this property is defined in the html by the server, since we cannot list httpOnly cookies from the JS
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!(<any>window).hasSession) {
       window.localStorage.clear();
       return
@@ -57,8 +58,13 @@ export class IdentityStore {
     })
   }
 
-  isAuth(): boolean {
+  isAuthenticated(): boolean {
     return (this.userSubject.value !== null)
+  }
+
+  logout() {
+    window.localStorage.clear();
+    this.userSubject.next(null);
   }
 
   // generatePgpKeyPair() {

@@ -6,7 +6,7 @@ from .db import db, migrate
 from .errors import register_error_handlers
 from .home import register as register_home
 from .auth import register as register_auth
-# from .chat import register as register_chat
+from .hooks import register as register_hooks
 
 
 def create_app(dev=False, test_config=None):
@@ -47,10 +47,12 @@ def create_app(dev=False, test_config=None):
     except OSError:
         pass
 
+    # First, register hooks and error handlers
+    register_error_handlers(app)
+    register_hooks(app)
+
     # Register blueprints
     register_home(app)
     register_auth(app)
-    # register_chat(app)
-    register_error_handlers(app)
 
     return app

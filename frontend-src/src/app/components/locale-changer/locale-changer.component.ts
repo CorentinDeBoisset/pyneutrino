@@ -1,4 +1,4 @@
-import { Component, Inject, LOCALE_ID } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -8,7 +8,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './locale-changer.component.html',
   styleUrl: './locale-changer.component.scss'
 })
-export class LocaleChangerComponent {
+export class LocaleChangerComponent implements OnInit {
   selectedLocale = new FormControl();
 
   constructor(@Inject(LOCALE_ID) protected localeId: string) {
@@ -16,7 +16,7 @@ export class LocaleChangerComponent {
   }
 
   ngOnInit() {
-    this.selectedLocale.valueChanges.subscribe(newLocale => {
+    this.selectedLocale.valueChanges.subscribe(() => {
       // TODO: Redirect the user to the right url
     })
   }

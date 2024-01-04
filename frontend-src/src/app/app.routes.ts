@@ -1,19 +1,19 @@
-import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot, Routes, UrlTree } from '@angular/router';
+import { CanActivateFn, Router, Routes } from '@angular/router';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { IdentityStore } from './stores/indentityStore';
 import { inject } from '@angular/core';
 
-const requiresAuth: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-  if (inject(IdentityStore).isAuth()) {
+const requiresAuth: CanActivateFn = () => {
+  if (inject(IdentityStore).isAuthenticated()) {
     return true
   }
   return inject(Router).parseUrl("/login");
 }
 
-const rejectsAuth: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-  if (!inject(IdentityStore).isAuth()) {
+const rejectsAuth: CanActivateFn = () => {
+  if (!inject(IdentityStore).isAuthenticated()) {
     return true
   }
   return inject(Router).parseUrl("/");

@@ -1,9 +1,10 @@
-from flask import Blueprint, request, session, jsonify, current_app
+from flask import Blueprint, request, session, jsonify
 from passlib.hash import argon2
 from pyneutrino.services.jsonschema import validate_schema
 from pyneutrino.db import db, UserAccount
 from werkzeug.exceptions import Unauthorized
 from sqlalchemy.exc import NoResultFound, MultipleResultsFound
+from uuid import uuid4
 
 LoginBp = Blueprint('auth', __name__, url_prefix="/api/auth")
 
@@ -41,6 +42,7 @@ def login():
 
     # Flask stores the session data in a cookie so be careful not to put any sensitive data in there
     session['user_id'] = user.id
+    session['uuid'] = str(uuid4())
 
     # If user roles are implemented, store it in the session to add a firewall on the routes
 

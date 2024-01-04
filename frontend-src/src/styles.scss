@@ -175,6 +175,9 @@ input[type=text]:focus, input:not([type]):focus {
 .flex-row.justify-between, .flex-column.justify-between {
 	justify-content: space-between;
 }
+.flex-row.justify-end, .flex-column.justify-end {
+	justify-content: end;
+}
 
 .flex-row.align-center, .flex-column.align-center {
 	align-items: center;

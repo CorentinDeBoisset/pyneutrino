@@ -19,7 +19,10 @@
       </section>
     </div>
   </div>
-  <footer class="neutrino-footer text-right">
-    <app-locale-changer></app-locale-changer>
+  <footer class="neutrino-footer flex-row justify-end align-center">
+    <form *ngIf="isAuthenticated" class="neutrino-footer__item col-auto" (submit)="submitLogout($event)">
+      <button type="submit" class="btn-link" i18n="logout|Button to trigger a logout">Logout</button>
+    </form>
+    <app-locale-changer class="col-auto neutrino-footer__item"></app-locale-changer>
   </footer>
 </div>

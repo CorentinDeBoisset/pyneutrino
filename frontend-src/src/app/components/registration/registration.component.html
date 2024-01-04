@@ -14,7 +14,7 @@
       <input id="registration-password" type="password" [formControl]="password" />
     </div>
     <div><input type="submit" i18n-value value="Submit" /></div>
-    <div *ngIf="registrationError.length > 0">
+    <div *ngIf="registrationError">
       {{ registrationError }}
     </div>
   </form>

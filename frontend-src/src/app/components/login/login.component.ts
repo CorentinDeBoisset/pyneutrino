@@ -5,11 +5,12 @@ import { catchError, throwError } from 'rxjs';
 import { IdentityStore } from '../../stores/indentityStore';
 import { LoginResponse } from '../../stores/types';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -28,7 +29,7 @@ export class LoginComponent {
       { email: this.email.value, password: this.password.value }
     ).pipe(catchError(err => this.handleLoginError(err)));
 
-    const res = req.subscribe(data => {
+    req.subscribe(data => {
       this.loginError = "";
       this.identityStore.initUserSession(this.password.value || "", data)
       this.router.navigate(["/"])

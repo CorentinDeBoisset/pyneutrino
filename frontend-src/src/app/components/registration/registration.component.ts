@@ -1,8 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component, TemplateRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { catchError, throwError } from 'rxjs';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -19,7 +19,7 @@ export class RegistrationComponent {
   registrationError = "";
   registrationSuccess = false;
 
-  constructor(private httpClient: HttpClient, private router: Router) { }
+  constructor(private httpClient: HttpClient) { }
 
   submitRegistration(e: SubmitEvent) {
     e.preventDefault()
@@ -38,7 +38,7 @@ export class RegistrationComponent {
       .post("/api/register/new-account", body)
       .pipe(catchError(err => this.handleRegistrationError(err)));
 
-    const res = req.subscribe(() => {
+    req.subscribe(() => {
       this.registrationError = "";
       this.registrationSuccess = true
     });
