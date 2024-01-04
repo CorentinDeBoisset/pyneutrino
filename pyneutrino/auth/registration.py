@@ -5,6 +5,8 @@ from pyneutrino.services.jsonschema import validate_schema
 from pyneutrino.db import db, UserAccount
 from datetime import datetime
 from uuid import uuid4
+from sqlalchemy import text
+from werkzeug.exceptions import Conflict
 
 RegistrationBp = Blueprint('registration', __name__, url_prefix="/api/register")
 
@@ -31,6 +33,15 @@ def new_account():
     password_hash = argon2.hash(json_body["password"])
     verification_code_hash = argon2.hash(secrets.token_urlsafe(32))
 
+    # Check the username and email are not already reserved
+    existing_email = db.session.execute(db.select(UserAccount).filter_by(email=json_body["email"])).scalar()
+    if existing_email is not None:
+        raise Conflict("registration_email_conflict")
+
+    existing_username = db.session.execute(db.select(UserAccount).filter_by(username=json_body["username"])).scalar()
+    if existing_username is not None:
+        raise Conflict("registration_username_conflict")
+
     new_user = UserAccount(
         id=uuid4(),
         username=json_body["username"],
@@ -41,10 +52,9 @@ def new_account():
         password_hash=password_hash,
         email_verification_code=verification_code_hash
     )
+
     db.session.add(new_user)
     db.session.commit()
-
-    # TODO: manage errors when saving in the database
 
     return jsonify(message="Ok"), 201
 

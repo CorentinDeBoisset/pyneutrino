@@ -1,18 +1,31 @@
-<form (submit)="submitRegistration($event)">
-  <label for="registration-email" i18n>Email</label>
+<div *ngIf="registrationSuccess; then registrationSuccessful else registrationForm"></div>
+<ng-template #registrationForm>
+  <form (submit)="submitRegistration($event)">
+    <label for="registration-email" i18n>Email</label>
+    <div>
+      <input id="registration-email" type="email" [formControl]="email" />
+    </div>
+    <label for="registration-username" i18n>Username</label>
+    <div>
+      <input id="registration-username" type="username" [formControl]="username" />
+    </div>
+    <label for="registration-password" i18n>Password</label>
+    <div>
+      <input id="registration-password" type="password" [formControl]="password" />
+    </div>
+    <div><input type="submit" i18n-value value="Submit" /></div>
+    <div *ngIf="registrationError.length > 0">
+      {{ registrationError }}
+    </div>
+  </form>
+</ng-template>
+<ng-template #registrationSuccessful>
+  <div i18n="registration-successful|Inform the user that their registration was successful">
+    The registration was successful!
+  </div>
   <div>
-    <input id="registration-email" type="email" [formControl]="email" />
+    <a routerLink="/login" i18n="registration-back-to-login|Link back to the login page from the registration page">
+      Go to the login page
+    </a>
   </div>
-  <label for="registration-username" i18n>Username</label>
-  <div>
-    <input id="registration-username" type="username" [formControl]="username" />
-  </div>
-  <label for="registration-password" i18n>Password</label>
-  <div>
-    <input id="registration-password" type="password" [formControl]="password" />
-  </div>
-  <div><input type="submit" i18n-value value="Submit"/></div>
-  <div ngIf="registrationError">
-    {{ registrationError }}
-  </div>
-</form>
+</ng-template>
