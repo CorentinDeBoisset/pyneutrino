@@ -2,6 +2,7 @@
 *.pyc
 .coverage
 .tox
+local_config.cfg
 pyneutrino/static/*
 !pyneutrino/static
 pyneutrino/templates/home.html

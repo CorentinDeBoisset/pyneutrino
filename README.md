@@ -26,10 +26,18 @@ You can initialize and start the backend with:
 
 ```bash
 poetry run flask --app pyneutrino db upgrade
-poetry run gunicorn 'pyneutrino:create_app()' --reload
+poetry run gunicorn 'pyneutrino:create_app(dev=True)' --reload
 ```
 
-At the same time, you can set up and start the frontend web server:
+If you want to override the configuration of the backend environment, you can follow these steps:
+
+```bash
+touch local_config.cfg
+# Set values in dev_config.cfg
+poetry run gunicorn 'pyneutrino:create_app(dev=True)' --reload --env "NEUTRINO_SETTING_FILE=$(pwd)/local_config.cfg"
+```
+
+Once started, you can set up and start the frontend web server:
 
 ```bash
 cd frontend-src
