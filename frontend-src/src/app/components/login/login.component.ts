@@ -31,8 +31,9 @@ export class LoginComponent {
 
     req.subscribe(data => {
       this.loginError = "";
-      this.identityStore.initUserSession(this.password.value || "", data)
-      this.router.navigate(["/"])
+      this.identityStore.initUserSession(this.password.value || "", data).then(() => {
+        this.router.navigate(["/"])
+      })
     });
   }
 

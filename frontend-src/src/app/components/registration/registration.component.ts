@@ -4,6 +4,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { catchError, throwError } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { IdentityStore } from '../../stores/indentityStore';
 
 @Component({
   selector: 'app-registration',
@@ -19,9 +20,9 @@ export class RegistrationComponent {
   registrationError = "";
   registrationSuccess = false;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private identityStore: IdentityStore) { }
 
-  submitRegistration(e: SubmitEvent) {
+  async submitRegistration(e: SubmitEvent) {
     e.preventDefault()
 
     if (this.password.value === null || this.password.value.length < 6) {
@@ -32,13 +33,23 @@ export class RegistrationComponent {
       this.registrationError = "A username of more than 4 caracters is required";
       return
     }
+    if (this.email.value === null || !this.email.value.match(/^\S+@\S+\.\S+$/)) {
+      this.registrationError = "A valid email is required"
+      return
+    }
+
+    const keyPair = await this.identityStore.generatePgpKeyPair(
+      this.email.value,
+      this.username.value,
+      this.password.value
+    )
 
     const body = {
       email: this.email.value,
       password: this.password.value,
       username: this.username.value,
-      public_key: "",
-      private_key: "",
+      public_key: keyPair.publicKey,
+      private_key: keyPair.privateKey,
     };
 
     const req = this.httpClient
