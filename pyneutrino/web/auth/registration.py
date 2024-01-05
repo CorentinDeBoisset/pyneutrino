@@ -1,13 +1,13 @@
 import secrets
 from passlib.hash import argon2
 from flask import Blueprint, request, jsonify
-from pyneutrino.services.jsonschema import validate_schema
+from pyneutrino.services import validate_schema
 from pyneutrino.db import db, UserAccount
 from datetime import datetime
 from uuid import uuid4
 from werkzeug.exceptions import Conflict
 
-RegistrationBp = Blueprint('registration', __name__, url_prefix="/api/register")
+RegistrationBp = Blueprint('registration', __name__, url_prefix="/api/auth/register")
 
 
 new_account_schema = {

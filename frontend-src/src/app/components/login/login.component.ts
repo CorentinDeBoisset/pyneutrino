@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { catchError, throwError } from 'rxjs';
+import { EMPTY, catchError } from 'rxjs';
 import { IdentityStore } from '../../stores/indentityStore';
 import { LoginResponse } from '../../stores/types';
 import { Router } from '@angular/router';
@@ -25,15 +25,18 @@ export class LoginComponent {
     e.preventDefault();
 
     const req = this.httpClient.post<LoginResponse>(
-      "/api/auth/login",
+      "/api/auth/session/login",
       { email: this.email.value, password: this.password.value }
     ).pipe(catchError(err => this.handleLoginError(err)));
 
     req.subscribe(data => {
       this.loginError = "";
-      this.identityStore.initUserSession(this.password.value || "", data).then(() => {
-        this.router.navigate(["/"])
-      })
+      this.identityStore.initUserSession(this.password.value || "", data)
+        .then(() => {
+          this.router.navigate(["/"])
+        }).catch(() => {
+          this.loginError = $localize`:login-account-error:Your account could not be loaded. Please contact an administrator`;
+        })
     });
   }
 
@@ -50,6 +53,7 @@ export class LoginComponent {
     }
     this.loginError = errMsg;
 
-    return throwError(() => new Error(`An error occured logging in: ${errMsg}`));
+    console.warn(`An error occured logging in: ${JSON.stringify(err)}`);
+    return EMPTY
   }
 }

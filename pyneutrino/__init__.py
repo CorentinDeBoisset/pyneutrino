@@ -3,10 +3,11 @@ import os
 from flask import Flask
 
 from .db import db, migrate
-from .errors import register_error_handlers
-from .home import register as register_home
-from .auth import register as register_auth
 from .hooks import register as register_hooks
+from .web.home import register as register_home
+from .web.error_management import register_error_handlers
+from .web.auth import register as register_auth
+from .web.messaging import register as register_messaging
 
 
 def create_app(test_config=None):
@@ -48,5 +49,6 @@ def create_app(test_config=None):
     # Register blueprints
     register_home(app)
     register_auth(app)
+    register_messaging(app)
 
     return app

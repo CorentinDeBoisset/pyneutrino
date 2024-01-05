@@ -1,3 +1,11 @@
+export interface Conversation {
+  id: string,
+  creator_id: string,
+  receiver_id: string,
+  creation_date: Date,
+  last_update_date: Date,
+}
+
 export interface LoginResponse {
   id: string,
   email: string,

@@ -34,7 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
   submitLogout(e: SubmitEvent) {
     e.preventDefault();
 
-    const req = this.httpClient.post("/api/auth/logout", null)
+    const req = this.httpClient.post("/api/auth/session/logout", null)
     req.subscribe(() => {
       this.identityStore.logout()
       this.router.navigate(["/login"])

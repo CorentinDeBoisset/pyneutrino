@@ -1,12 +1,12 @@
 from flask import Blueprint, request, session, jsonify
 from passlib.hash import argon2
-from pyneutrino.services.jsonschema import validate_schema
+from pyneutrino.services import validate_schema
 from pyneutrino.db import db, UserAccount
 from werkzeug.exceptions import Unauthorized
-from sqlalchemy.exc import NoResultFound, MultipleResultsFound
+from sqlalchemy.exc import NoResultFound
 from uuid import uuid4
 
-LoginBp = Blueprint('auth', __name__, url_prefix="/api/auth")
+SessionBp = Blueprint('auth', __name__, url_prefix="/api/auth/session")
 
 
 login_schema = {
@@ -18,7 +18,7 @@ login_schema = {
 }
 
 
-@LoginBp.route("/login", methods=["POST"])
+@SessionBp.route("/login", methods=["POST"])
 @validate_schema(login_schema)
 def login():
     json_body = request.get_json()
@@ -27,8 +27,8 @@ def login():
     # https://pythonhosted.org/srp/srp.html#usage
 
     try:
-        user = db.session.execute(db.select(UserAccount).filter_by(email=json_body["email"])).scalar_one()
-    except (MultipleResultsFound, NoResultFound):
+        user = db.session.execute(db.select(UserAccount).filter_by(email=json_body["email"])).one()
+    except (NoResultFound):
         session.clear()
         raise Unauthorized()
 
@@ -57,7 +57,7 @@ def login():
     )
 
 
-@LoginBp.route("/logout", methods=["POST"])
+@SessionBp.route("/logout", methods=["POST"])
 def logout():
     session.clear()
 

@@ -1,8 +1,11 @@
 from datetime import datetime
 from sqlalchemy import Text, String, Uuid, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
-
+from typing import List, TYPE_CHECKING
 from ._db import db
+
+if TYPE_CHECKING:
+    from .conversation import Conversation
 
 
 # known bug: https://github.com/python/mypy/issues/8603
@@ -16,6 +19,15 @@ class UserAccount(db.Model):  # type: ignore[name-defined]
     password_hash: Mapped[str] = mapped_column(String, nullable=True)
     email_verification_code: Mapped[str] = mapped_column(String, nullable=True)
     email_verification_date: Mapped[datetime] = mapped_column(DateTime, nullable=True)
+
+    created_conversations: Mapped[List["Conversation"]] = db.relationship(
+        back_populates="creator",
+        foreign_keys="Conversation.creator_id"
+    )
+    received_conversations: Mapped[List["Conversation"]] = db.relationship(
+        back_populates="receiver",
+        foreign_keys="Conversation.receiver_id"
+    )
 
     # We override repr to avoid leaking hashes in logs or errors
     def __repr__(self):

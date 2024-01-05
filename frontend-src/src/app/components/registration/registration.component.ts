@@ -53,7 +53,7 @@ export class RegistrationComponent {
     };
 
     const req = this.httpClient
-      .post("/api/register/new-account", body)
+      .post("/api/auth/register/new-account", body)
       .pipe(catchError(err => this.handleRegistrationError(err)));
 
     req.subscribe(() => {
