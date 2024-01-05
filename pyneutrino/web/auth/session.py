@@ -27,7 +27,7 @@ def login():
     # https://pythonhosted.org/srp/srp.html#usage
 
     try:
-        user = db.session.execute(db.select(UserAccount).filter_by(email=json_body["email"])).one()
+        user = db.session.execute(db.select(UserAccount).filter_by(email=json_body["email"])).scalar_one()
     except (NoResultFound):
         session.clear()
         raise Unauthorized()
