@@ -9,7 +9,7 @@ from .auth import register as register_auth
 from .hooks import register as register_hooks
 
 
-def create_app(dev=False, test_config=None):
+def create_app(test_config=None):
     # create and configure the app
     app = Flask(
         __name__,
@@ -19,19 +19,13 @@ def create_app(dev=False, test_config=None):
     )
 
     app.config.from_mapping(
-        SESSION_COOKIE_SAMESITE="Strict"
+        SESSION_COOKIE_SAMESITE="Strict",
+        SECRET_KEY="secret-key",
+        CSRF_TOKEN_SALT="csrf-salt",
+        SQLALCHEMY_DATABASE_URI="postgresql://neutrino:neutrinopwd@127.0.0.1:5432/neutrino",
     )
 
     if test_config is None:
-        if dev:
-            # Set the default configuration for the dev environment
-            app.config.from_mapping(
-                SECRET_KEY="secret-key",
-                CSRF_TOKEN_SALT="csrf-salt",
-                SQLALCHEMY_DATABASE_URI="postgresql://neutrino:neutrinopwd@127.0.0.1:5432/neutrino",
-                SESSION_COOKIE_SAMESITE="Strict"
-            )
-
         # Load a configuration file targeted with the environment: NEUTRINO_SETTING_FILE=/path/to/settings.cfg
         app.config.from_envvar('NEUTRINO_SETTING_FILE', silent=True)
     else:

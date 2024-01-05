@@ -1,4 +1,4 @@
-from sqlalchemy import String, Uuid, ForeignKey
+from sqlalchemy import Text, Uuid, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
 from ._db import db
@@ -11,4 +11,4 @@ class Conversation(db.Model):  # type: ignore[name-defined]
 
     # We either have an account liked to the receiver, or an anonymous receiver where we only save the public key
     receiver: Mapped[str] = mapped_column(Uuid, ForeignKey("user_account.id"), nullable=True)
-    reveiver_public_key: Mapped[str] = mapped_column(String, nullable=True)
+    reveiver_public_key: Mapped[str] = mapped_column(Text, nullable=True)

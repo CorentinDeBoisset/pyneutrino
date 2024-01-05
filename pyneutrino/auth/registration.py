@@ -14,8 +14,8 @@ new_account_schema = {
     "required": ["email", "username", "password", "public_key", "private_key"],
     "properties": {
         "email": {"type": "string", "pattern": "^\\S+@\\S+\\.\\S+$"},
-        "username": {"type": "string"},
-        "password": {"type": "string"},
+        "username": {"type": "string", "minLength": 6},
+        "password": {"type": "string", "minLength": 4},
         "public_key": {"type": "string"},
         "private_key": {"type": "string"},
     }

@@ -24,7 +24,14 @@ export class RegistrationComponent {
   submitRegistration(e: SubmitEvent) {
     e.preventDefault()
 
-    // TODO: call identityStore and generate a key pair
+    if (this.password.value === null || this.password.value.length < 6) {
+      this.registrationError = "A password of more than 6 caracters is required";
+      return
+    }
+    if (this.username.value === null || this.username.value.length < 4) {
+      this.registrationError = "A username of more than 4 caracters is required";
+      return
+    }
 
     const body = {
       email: this.email.value,
