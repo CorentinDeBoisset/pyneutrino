@@ -15,7 +15,7 @@ export class TimeFromNowPipe implements PipeTransform {
   }
 
   transform(value: string|number|Date): string | null {
-    let now = this.timeFrom ?? new Date() ;
+    let now = this.timeFrom ?? new Date();
     let givenDate = new Date(value)
 
     // This handles the case where the value is a unix timestamp in seconds and not milliseconds
@@ -23,14 +23,16 @@ export class TimeFromNowPipe implements PipeTransform {
       givenDate.setTime(givenDate.getTime()*1000)
     }
 
-    if (givenDate > now) {
-      return this.datePipe.transform(givenDate, "medium")
-    }
 
     // For short periods of time, we calculate a precise difference
     const preciseTimeDifference = now.getTime() - givenDate.getTime()
     if (preciseTimeDifference < 1000*3600*24 && now.getDay() === givenDate.getDay()) {
       return this.datePipe.transform(givenDate, "shortTime")
+    }
+
+    // manage cases where the date is in the future
+    if (givenDate > now) {
+      return this.datePipe.transform(givenDate, "medium")
     }
 
     // Now we round to a day precision

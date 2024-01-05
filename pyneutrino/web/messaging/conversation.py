@@ -24,7 +24,7 @@ def get_own_conversations():
         FROM user_account u
         LEFT JOIN conversation c ON (c.creator_id = u.id OR c.receiver_id = u.id)
         WHERE u.id = :uid
-        ORDER BY c.last_update_date
+        ORDER BY c.last_update_date DESC
         LIMIT 10 OFFSET :offset
     """)
     params = {
