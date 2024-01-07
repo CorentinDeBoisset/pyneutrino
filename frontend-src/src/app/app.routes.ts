@@ -1,9 +1,10 @@
 import { CanActivateFn, Router, Routes } from '@angular/router';
+import { inject } from '@angular/core';
+import { IdentityStore } from './stores/indentityStore';
+import { HomePageComponent } from './components/home-page/home-page.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { RegistrationComponent } from './components/registration/registration.component';
-import { HomePageComponent } from './components/home-page/home-page.component';
-import { IdentityStore } from './stores/indentityStore';
-import { inject } from '@angular/core';
+import { ConversationPageComponent } from './components/conversation-page/conversation-page.component';
 
 const requiresAuth: CanActivateFn = () => {
   if (inject(IdentityStore).isAuthenticated()) {
@@ -37,5 +38,11 @@ export const routes: Routes = [
     component: RegistrationComponent,
     title: "Register - Neutrino",
     canActivate: [rejectsAuth],
-  }
+  },
+  {
+    path: "conversation/:id",
+    component: ConversationPageComponent,
+    title: "Conversation - Neutrino",
+    canActivate: [requiresAuth],
+  },
 ];

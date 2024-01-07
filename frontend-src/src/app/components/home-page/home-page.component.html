@@ -7,7 +7,9 @@
         <div i18n="homepage-recent-conversations">Recent conversations:</div>
         <ul>
             <li *ngFor="let conv of conversations">
-                {{ conv.id }} - <span title="{{ conv.last_update_date | date:'medium' }}">{{ conv.last_update_date | timeFromNow }}</span>
+                <a routerLink="/conversation/{{ conv.id }}">{{ conv.id }}</a>
+                <span> - </span>
+                <span title="{{ conv.last_update_date | date:'medium' }}">{{ conv.last_update_date | timeFromNow }}</span>
             </li>
         </ul>
     </div>

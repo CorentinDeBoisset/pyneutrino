@@ -14,6 +14,7 @@
   <app-root class="fullheight"></app-root>
   <script>
     window.hasSession = {{ "false" if ("user_id" not in session) else "true" }}; // This is rendered by flask, to tell the JS if there is a session
+    window.baseUrl = "{{ base_url }}";
   </script>
 </body>
 </html>

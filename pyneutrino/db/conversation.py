@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import List, TYPE_CHECKING
-from sqlalchemy import Text, Uuid, ForeignKey, DateTime
+from sqlalchemy import Uuid, ForeignKey, DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column
 from ._db import db
 
@@ -21,7 +21,8 @@ class Conversation(db.Model):  # type: ignore[name-defined]
         foreign_keys=[creator_id]
     )
 
-    # We either have an account liked to the receiver, or an anonymous receiver where we only save the public key
+    invite_code: Mapped[str] = mapped_column(String, nullable=True, unique=True, index=True)
+
     receiver_id: Mapped[str] = mapped_column(
         Uuid,
         ForeignKey("user_account.id", name="received_conversation_fkey"),
@@ -31,7 +32,6 @@ class Conversation(db.Model):  # type: ignore[name-defined]
         back_populates='received_conversations',
         foreign_keys=[receiver_id],
     )
-    reveiver_public_key: Mapped[str] = mapped_column(Text, nullable=True)
 
     creation_date: Mapped[datetime] = mapped_column(DateTime)
     last_update_date: Mapped[datetime] = mapped_column(DateTime, index=True)

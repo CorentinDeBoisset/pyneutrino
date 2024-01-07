@@ -1,9 +1,10 @@
 export interface Conversation {
-  id: string,
-  creator_id: string,
-  receiver_id: string,
-  creation_date: Date,
-  last_update_date: Date,
+  id: string
+  invite_code: string
+  creator_id: string
+  receiver_id: string
+  creation_date: Date
+  last_update_date: Date
 }
 
 export interface LoginResponse {

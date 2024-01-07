@@ -24,6 +24,7 @@ def create_app(test_config=None):
         SECRET_KEY="secret-key",
         CSRF_TOKEN_SALT="csrf-salt",
         SQLALCHEMY_DATABASE_URI="postgresql://neutrino:neutrinopwd@127.0.0.1:5432/neutrino",
+        TEMPLATES_AUTO_RELOAD=True,
     )
 
     if test_config is None:

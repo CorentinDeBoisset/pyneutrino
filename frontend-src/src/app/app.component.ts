@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { LocaleChangerComponent } from './components/locale-changer/locale-changer.component';
 import { IdentityStore } from './stores/indentityStore';
 import { HttpClient } from '@angular/common/http';
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, LocaleChangerComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, LocaleChangerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

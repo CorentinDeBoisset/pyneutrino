@@ -6,7 +6,7 @@ import { DatePipe } from "@angular/common";
   name: 'timeFromNow',
 })
 export class TimeFromNowPipe implements PipeTransform {
-  timeFrom: Date|null = null; // Useful for tests
+  timeFrom!: Date|null; // Useful for tests
 
   constructor(private datePipe: DatePipe) { }
 

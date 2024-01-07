@@ -39,11 +39,11 @@ def check_csrf_token():
         return
 
     # Skip CSRF token validation if there is no session
-    if "user_id" not in session and "uuid" not in session:
+    if "user_id" not in session and "session_id" not in session:
         return
 
     # If the session contains invalid data, we just clear it
-    if "user_id" not in session or "uuid" not in session:
+    if "user_id" not in session or "session_id" not in session:
         session.clear()
         return
 
@@ -52,16 +52,16 @@ def check_csrf_token():
         session.clear()
         raise Unauthorized("A CSRF token must be sent in the X-XSRF-TOKEN header")
 
-    check_token(xsrf_token_header, session["uuid"])
+    check_token(xsrf_token_header, session["session_id"])
 
 
 @CsrfBp.after_app_request
 def generate_csr_token(res: Response):
-    if "user_id" in session and "uuid" in session:
+    if "user_id" in session and "session_id" in session:
         # If there is a session, we ensure there is a CSRF Token in the Cookie
         if "XSRF-TOKEN" not in request.cookies:
             s = URLSafeSerializer(current_app.config["SECRET_KEY"])
-            token = s.dumps(session["uuid"], current_app.config["CSRF_TOKEN_SALT"])
+            token = s.dumps(session["session_id"], current_app.config["CSRF_TOKEN_SALT"])
             res.set_cookie("XSRF-TOKEN", value=str(token), samesite='Strict')
     else:
         # If there is no session, we ensure the cookie is cleaned up

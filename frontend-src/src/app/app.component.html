@@ -2,11 +2,13 @@
   <div class="neutrino-page__upper-body flex-row">
     <div class="col-6 mx-auto">
       <header class="neutrino-header flex-column align-center">
-        <img
-          class="neutrino-logo"
-          src="static/logo_large.svg"
-          alt="Neutrino logo"
-        />
+        <a [routerLink]="isAuthenticated ? '/' : '/login'">
+          <img
+            class="neutrino-logo"
+            src="static/logo_large.svg"
+            alt="Neutrino logo"
+          />
+        </a>
         <h1>
           <span aria-hidden="true">&#8211;</span>
           <ng-container i18n="site-header|A global header title">NEUTRINO</ng-container>

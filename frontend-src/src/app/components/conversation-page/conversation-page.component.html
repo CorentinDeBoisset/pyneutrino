@@ -1,0 +1,14 @@
+<div>
+    <div *ngIf="conversationFetchError">{{ conversationFetchError }}</div>
+    <div *ngIf="conversation$ | async as conversation">
+        <div *ngIf="conversation.receiver_id; else conversation_not_started">
+            {{ conversation | json }}
+        </div>
+        <ng-template #conversation_not_started>
+            <h3 i18n="conversation-standby">Standby</h3>
+            <div i18n="conversation-waiting-for-peeer">Waiting for a peer to enter the conversation</div>
+            <div i18n="conversation-share-label">You can share this link to invite a contact to the conversation:</div>
+            <div>{{ calculateInviteLink(conversation.id, conversation.invite_code) }}</div>
+        </ng-template>
+    </div>
+</div>

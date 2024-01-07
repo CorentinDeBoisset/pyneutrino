@@ -28,7 +28,7 @@ def login():
 
     try:
         user = db.session.execute(db.select(UserAccount).filter_by(email=json_body["email"])).scalar_one()
-    except (NoResultFound):
+    except NoResultFound:
         session.clear()
         raise Unauthorized()
 
@@ -42,7 +42,7 @@ def login():
 
     # Flask stores the session data in a cookie so be careful not to put any sensitive data in there
     session['user_id'] = user.id
-    session['uuid'] = str(uuid4())
+    session['session_id'] = str(uuid4())
 
     # If user roles are implemented, store it in the session to add a firewall on the routes
 
