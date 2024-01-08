@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 # known bug: https://github.com/python/mypy/issues/8603
 class UserAccount(db.Model):  # type: ignore[name-defined]
     id: Mapped[str] = mapped_column(Uuid, primary_key=True)
-    username: Mapped[str] = mapped_column(String, unique=True)
+    username: Mapped[str] = mapped_column(String, unique=True, nullable=True)
     public_key: Mapped[str] = mapped_column(Text)
     private_key: Mapped[str] = mapped_column(Text)
     creation_date: Mapped[datetime] = mapped_column(DateTime)
