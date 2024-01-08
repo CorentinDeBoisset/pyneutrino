@@ -2,6 +2,7 @@ from functools import wraps
 from flask import session, g
 from werkzeug.exceptions import Unauthorized
 from sqlalchemy.exc import NoResultFound
+from sqlalchemy import select
 from pyneutrino.db import db, UserAccount
 from typing import Callable
 
@@ -13,7 +14,7 @@ def authguard(handler: Callable):
             raise Unauthorized
 
         try:
-            g.current_user = db.session.execute(db.select(UserAccount).filter_by(id=session["user_id"])).scalar_one()
+            g.current_user = db.session.execute(select(UserAccount).filter_by(id=session["user_id"])).scalar_one()
         except NoResultFound:
             session.clear()
             raise Unauthorized

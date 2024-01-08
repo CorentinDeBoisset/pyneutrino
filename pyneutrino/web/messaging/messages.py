@@ -1,5 +1,6 @@
 from flask import Blueprint, g, request
 from werkzeug.exceptions import BadRequest, NotFound
+from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
 from pyneutrino.services import authguard, serialize
 from pyneutrino.db import db, Conversation
@@ -16,9 +17,7 @@ def get_messages():
         raise BadRequest("A conversation_id is required in query parameters")
 
     try:
-        conversation: Conversation = db.session.execute(
-            db.session.query(Conversation).filter_by(id=conversation_id)
-        ).scalar_one()
+        conversation: Conversation = db.session.execute(select(Conversation).filter_by(id=conversation_id)).scalar_one()
     except NoResultFound:
         raise NotFound
 

@@ -4,6 +4,7 @@ from pyneutrino.services import validate_schema
 from pyneutrino.db import db, UserAccount
 from werkzeug.exceptions import Unauthorized
 from sqlalchemy.exc import NoResultFound
+from sqlalchemy import select
 from uuid import uuid4
 
 SessionBp = Blueprint("auth", __name__, url_prefix="/api/auth/session")
@@ -27,7 +28,7 @@ def login():
     # https://pythonhosted.org/srp/srp.html#usage
 
     try:
-        user = db.session.execute(db.select(UserAccount).filter_by(email=json_body["email"])).scalar_one()
+        user = db.session.execute(select(UserAccount).filter_by(email=json_body["email"])).scalar_one()
     except NoResultFound:
         session.clear()
         raise Unauthorized()

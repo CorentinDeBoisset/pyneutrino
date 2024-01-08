@@ -1,12 +1,31 @@
-from typing import Any
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from sqlalchemy.orm import DeclarativeBase
+from flask import Flask
+from flask.globals import app_ctx
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 
-class Base(DeclarativeBase):
-    pass
+class SQLAlchemy:
+    def __init__(self):
+        self.engine = None
+        self.session = None
+
+    @staticmethod
+    def get_context_id():
+        # This is a proxy, see here: https://werkzeug.palletsprojects.com/en/3.0.x/local/#proxy-objects
+        return id(app_ctx._get_current_object())
+
+    def shutdown_session(self, exception: BaseException | None = None):
+        self.session.remove()
+
+    def init_standalone(self, url: str, echo: bool = False):
+        self.engine = create_engine(url, echo=echo)
+        self.session = scoped_session(sessionmaker(self.engine), self.get_context_id)
+
+    def init_app(self, app: Flask):
+        url = app.config["SQLALCHEMY_DATABASE_URI"]
+        echo = app.config.get("SQLALCHEMY_ECHO", False)
+        self.init_standalone(url, echo)
+        app.teardown_appcontext(self.shutdown_session)
 
 
-db = SQLAlchemy(model_class=Base)
-migrate = Migrate()
+db = SQLAlchemy()

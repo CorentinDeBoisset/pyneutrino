@@ -1,11 +1,12 @@
 import secrets
+from uuid import uuid4
 from passlib.hash import argon2
 from flask import Blueprint, request, jsonify
+from sqlalchemy import select
+from werkzeug.exceptions import Conflict
 from pyneutrino.services import validate_schema
 from pyneutrino.db import db, UserAccount
 from datetime import datetime
-from uuid import uuid4
-from werkzeug.exceptions import Conflict
 
 RegistrationBp = Blueprint("registration", __name__, url_prefix="/api/auth/register")
 
@@ -33,11 +34,11 @@ def new_account():
     verification_code_hash = argon2.hash(secrets.token_urlsafe(32))
 
     # Check the username and email are not already reserved
-    existing_email = db.session.execute(db.select(UserAccount).filter_by(email=json_body["email"])).scalar()
+    existing_email = db.session.execute(select(UserAccount).filter_by(email=json_body["email"])).scalar()
     if existing_email is not None:
         raise Conflict("registration_email_conflict")
 
-    existing_username = db.session.execute(db.select(UserAccount).filter_by(username=json_body["username"])).scalar()
+    existing_username = db.session.execute(select(UserAccount).filter_by(username=json_body["username"])).scalar()
     if existing_username is not None:
         raise Conflict("registration_username_conflict")
 

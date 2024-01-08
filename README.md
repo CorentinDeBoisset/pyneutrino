@@ -25,16 +25,16 @@ docker compose up -d
 You can initialize and start the backend with:
 
 ```bash
-poetry run flask --app pyneutrino db upgrade
+poetry run alembic upgrade head
 poetry run gunicorn 'pyneutrino:create_app()' --reload
 ```
 
 If you want to override the configuration of the backend environment, you can follow these steps:
 
 ```bash
-touch local_config.cfg
+touch local_config.yaml
 # Set values in dev_config.cfg
-poetry run gunicorn 'pyneutrino:create_app()' --reload --env "NEUTRINO_SETTING_FILE=$(pwd)/local_config.cfg"
+poetry run gunicorn 'pyneutrino:create_app()' --reload --env "NEUTRINO_SETTING_FILE=$(pwd)/local_config.yaml"
 ```
 
 Once started, you can set up and start the frontend web server:
@@ -46,6 +46,9 @@ npm start
 ```
 
 The application is then available at [http://localhost:4200]
+
+Important caveats:
+* This project does not use the Flask-SQLAlchemy extension. Do not go to their documentation for insights, but SQLAlchemy's instead.
 
 ### Tests
 

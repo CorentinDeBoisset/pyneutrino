@@ -12,7 +12,7 @@ def serialize_list(objs: list, attributes: list):
 
 def serialize(source, attributes: list):
     if type(source) is ScalarResult:
-        return serialize_list(source.all(), attributes)
+        return serialize_list(list(source.all()), attributes)
 
     if type(source) in [list, tuple]:
         return serialize_list(source, attributes)

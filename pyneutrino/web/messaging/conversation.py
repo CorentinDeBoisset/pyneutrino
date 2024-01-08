@@ -3,7 +3,7 @@ from uuid import uuid4
 from datetime import datetime
 import secrets
 from werkzeug.exceptions import BadRequest, NotFound, Conflict
-from sqlalchemy import text
+from sqlalchemy import text, select
 from sqlalchemy.exc import NoResultFound
 from pyneutrino.services import authguard, serialize
 from pyneutrino.db import db, Conversation
@@ -32,7 +32,7 @@ def get_own_conversations():
     """
     )
     params = {"user_id": g.current_user.id, "offset": (page - 1) * 10}
-    results = db.session.execute(db.session.query(Conversation).from_statement(sql), params).scalars()
+    results = db.session.execute(select(Conversation).from_statement(sql), params).scalars()
 
     return jsonify(serialize(results, ["id", "creator_id", "receiver_id", "creation_date", "last_update_date"]))
 
@@ -61,7 +61,7 @@ def new_conversation():
 @authguard
 def get_conversation(id: str):
     try:
-        conversation: Conversation = db.session.execute(db.session.query(Conversation).filter_by(id=id)).scalar_one()
+        conversation: Conversation = db.session.execute(select(Conversation).filter_by(id=id)).scalar_one()
     except NoResultFound:
         raise NotFound
 
@@ -87,7 +87,7 @@ def get_conversation(id: str):
 @authguard
 def join_conversation(id: str):
     try:
-        conversation: Conversation = db.session.execute(db.session.query(Conversation).filter_by(id=id)).scalar_one()
+        conversation: Conversation = db.session.execute(select(Conversation).filter_by(id=id)).scalar_one()
     except NoResultFound:
         raise NotFound
 
