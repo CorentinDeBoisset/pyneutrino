@@ -5,7 +5,7 @@ from pyneutrino.services import authguard, serialize
 from pyneutrino.db import db, Conversation
 
 
-MessagesBp = Blueprint('messages', __name__, url_prefix="/api/messaging/messages")
+MessagesBp = Blueprint("messages", __name__, url_prefix="/api/messaging/messages")
 
 
 @MessagesBp.route("")

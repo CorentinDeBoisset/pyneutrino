@@ -3,7 +3,7 @@ from werkzeug.exceptions import Unauthorized
 from itsdangerous.serializer import BadSignature
 from itsdangerous.url_safe import URLSafeSerializer
 
-CsrfBp = Blueprint('csrf', __name__)
+CsrfBp = Blueprint("csrf", __name__)
 
 # This module implements CSRF protection
 # See more information here:
@@ -62,10 +62,10 @@ def generate_csr_token(res: Response):
         if "XSRF-TOKEN" not in request.cookies:
             s = URLSafeSerializer(current_app.config["SECRET_KEY"])
             token = s.dumps(session["session_id"], current_app.config["CSRF_TOKEN_SALT"])
-            res.set_cookie("XSRF-TOKEN", value=str(token), samesite='Strict')
+            res.set_cookie("XSRF-TOKEN", value=str(token), samesite="Strict")
     else:
         # If there is no session, we ensure the cookie is cleaned up
         if "XSRF-TOKEN" in request.cookies:
-            res.delete_cookie("XSRF-TOKEN", samesite='Strict')
+            res.delete_cookie("XSRF-TOKEN", samesite="Strict")
 
     return res

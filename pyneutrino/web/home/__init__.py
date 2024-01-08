@@ -2,7 +2,7 @@ from werkzeug.exceptions import NotFound
 from flask import Flask, Blueprint, render_template, current_app
 
 
-HomeBp = Blueprint('home', __name__, url_prefix="")
+HomeBp = Blueprint("home", __name__, url_prefix="")
 
 
 # This is a catch-all route to work with angular navigation

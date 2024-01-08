@@ -16,10 +16,7 @@ class Conversation(db.Model):  # type: ignore[name-defined]
         Uuid,
         ForeignKey("user_account.id", name="created_conversations_fkey"),
     )
-    creator: Mapped["UserAccount"] = db.relationship(
-        back_populates="created_conversations",
-        foreign_keys=[creator_id]
-    )
+    creator: Mapped["UserAccount"] = db.relationship(back_populates="created_conversations", foreign_keys=[creator_id])
 
     invite_code: Mapped[str] = mapped_column(String, nullable=True, unique=True, index=True)
 
@@ -29,11 +26,11 @@ class Conversation(db.Model):  # type: ignore[name-defined]
         nullable=True,
     )
     receiver: Mapped["UserAccount"] = db.relationship(
-        back_populates='received_conversations',
+        back_populates="received_conversations",
         foreign_keys=[receiver_id],
     )
 
     creation_date: Mapped[datetime] = mapped_column(DateTime)
     last_update_date: Mapped[datetime] = mapped_column(DateTime, index=True)
 
-    sent_messages: Mapped[List["SentMessage"]] = db.relationship(back_populates='conversation')
+    sent_messages: Mapped[List["SentMessage"]] = db.relationship(back_populates="conversation")

@@ -7,7 +7,7 @@ from datetime import datetime
 from uuid import uuid4
 from werkzeug.exceptions import Conflict
 
-RegistrationBp = Blueprint('registration', __name__, url_prefix="/api/auth/register")
+RegistrationBp = Blueprint("registration", __name__, url_prefix="/api/auth/register")
 
 
 new_account_schema = {
@@ -18,7 +18,7 @@ new_account_schema = {
         "password": {"type": "string", "minLength": 4},
         "public_key": {"type": "string"},
         "private_key": {"type": "string"},
-    }
+    },
 }
 
 
@@ -49,7 +49,7 @@ def new_account():
         private_key=json_body["private_key"],
         creation_date=datetime.now(),
         password_hash=password_hash,
-        email_verification_code=verification_code_hash
+        email_verification_code=verification_code_hash,
     )
 
     db.session.add(new_user)
@@ -62,7 +62,7 @@ new_anonymous_account_schema = {
     "required": ["public_key"],
     "properties": {
         "public_key": {"type": "string"},
-    }
+    },
 }
 
 
@@ -91,7 +91,7 @@ validate_account_schema = {
     "properties": {
         "email": {"type": "string"},
         "validation_code": {"type": "string"},
-    }
+    },
 }
 
 

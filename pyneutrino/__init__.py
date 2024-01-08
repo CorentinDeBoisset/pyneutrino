@@ -12,12 +12,7 @@ from .web.messaging import register as register_messaging
 
 def create_app(test_config=None):
     # create and configure the app
-    app = Flask(
-        __name__,
-        instance_relative_config=True,
-        static_folder="./static",
-        static_url_path="/static"
-    )
+    app = Flask(__name__, instance_relative_config=True, static_folder="./static", static_url_path="/static")
 
     app.config.from_mapping(
         SESSION_COOKIE_SAMESITE="Strict",
@@ -29,7 +24,7 @@ def create_app(test_config=None):
 
     if test_config is None:
         # Load a configuration file targeted with the environment: NEUTRINO_SETTING_FILE=/path/to/settings.cfg
-        app.config.from_envvar('NEUTRINO_SETTING_FILE', silent=True)
+        app.config.from_envvar("NEUTRINO_SETTING_FILE", silent=True)
     else:
         # load the test config if passed in
         app.config.from_mapping(test_config)

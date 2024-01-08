@@ -21,12 +21,10 @@ class UserAccount(db.Model):  # type: ignore[name-defined]
     email_verification_date: Mapped[datetime] = mapped_column(DateTime, nullable=True)
 
     created_conversations: Mapped[List["Conversation"]] = db.relationship(
-        back_populates="creator",
-        foreign_keys="Conversation.creator_id"
+        back_populates="creator", foreign_keys="Conversation.creator_id"
     )
     received_conversations: Mapped[List["Conversation"]] = db.relationship(
-        back_populates="receiver",
-        foreign_keys="Conversation.receiver_id"
+        back_populates="receiver", foreign_keys="Conversation.receiver_id"
     )
 
     # We override repr to avoid leaking hashes in logs or errors

@@ -8,7 +8,7 @@ from sqlalchemy.exc import NoResultFound
 from pyneutrino.services import authguard, serialize
 from pyneutrino.db import db, Conversation
 
-ConversationBp = Blueprint('conversation', __name__, url_prefix="/api/messaging/conversations")
+ConversationBp = Blueprint("conversation", __name__, url_prefix="/api/messaging/conversations")
 
 
 @ConversationBp.route("/own")
@@ -21,24 +21,20 @@ def get_own_conversations():
     except ValueError:
         raise BadRequest("Invalid page value")
 
-    sql = text("""
+    sql = text(
+        """
         SELECT c.*
         FROM user_account u
         LEFT JOIN conversation c ON (c.creator_id = u.id OR c.receiver_id = u.id)
         WHERE u.id = :user_id
         ORDER BY c.last_update_date DESC
         LIMIT 10 OFFSET :offset
-    """)
-    params = {
-        "user_id": g.current_user.id,
-        "offset": (page-1)*10
-    }
+    """
+    )
+    params = {"user_id": g.current_user.id, "offset": (page - 1) * 10}
     results = db.session.execute(db.session.query(Conversation).from_statement(sql), params).scalars()
 
-    return jsonify(serialize(
-        results,
-        ["id", "creator_id", "receiver_id", "creation_date", "last_update_date"]
-    ))
+    return jsonify(serialize(results, ["id", "creator_id", "receiver_id", "creation_date", "last_update_date"]))
 
 
 @ConversationBp.route("/new", methods=["POST"])
@@ -55,10 +51,10 @@ def new_conversation():
     db.session.add(new_conversation)
     db.session.commit()
 
-    return jsonify(serialize(
-        new_conversation,
-        ["id", "creator_id", "receiver_id", "creation_date", "last_update_date"]
-    )), 201
+    return (
+        jsonify(serialize(new_conversation, ["id", "creator_id", "receiver_id", "creation_date", "last_update_date"])),
+        201,
+    )
 
 
 @ConversationBp.route("/<uuid:id>")
@@ -71,16 +67,16 @@ def get_conversation(id: str):
 
     if conversation.creator_id == g.current_user.id:
         # The creator has access to the invite code
-        return jsonify(serialize(
-            conversation,
-            ["id", "invite_code", "creator_id", "receiver_id", "creation_date", "last_update_date"]
-        ))
+        return jsonify(
+            serialize(
+                conversation, ["id", "invite_code", "creator_id", "receiver_id", "creation_date", "last_update_date"]
+            )
+        )
 
     if conversation.receiver_id == g.current_user.id:
-        return jsonify(serialize(
-            conversation,
-            ["id", "creator_id", "receiver_id", "creation_date", "last_update_date"]
-        ))
+        return jsonify(
+            serialize(conversation, ["id", "creator_id", "receiver_id", "creation_date", "last_update_date"])
+        )
 
     # The user is not allowed to see the conversation.
     # A NotFound is returned to avoid leaking conversation ids.
@@ -96,7 +92,7 @@ def join_conversation(id: str):
         raise NotFound
 
     # If the (uuid/invite code) is invalid, we return a 404 as well
-    if conversation.invite_code == request.args.get('invite_code', default=None):
+    if conversation.invite_code == request.args.get("invite_code", default=None):
         raise NotFound
 
     if conversation.creator_id == g.current_user.id:
@@ -108,7 +104,4 @@ def join_conversation(id: str):
     conversation.receiver_id = g.current_user.id
     db.session.commit()
 
-    return jsonify(serialize(
-        conversation,
-        ["id", "creator_id", "receiver_id", "creation_date", "last_update_date"]
-    ))
+    return jsonify(serialize(conversation, ["id", "creator_id", "receiver_id", "creation_date", "last_update_date"]))

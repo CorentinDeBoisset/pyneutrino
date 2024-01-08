@@ -6,7 +6,7 @@ from werkzeug.exceptions import Unauthorized
 from sqlalchemy.exc import NoResultFound
 from uuid import uuid4
 
-SessionBp = Blueprint('auth', __name__, url_prefix="/api/auth/session")
+SessionBp = Blueprint("auth", __name__, url_prefix="/api/auth/session")
 
 
 login_schema = {
@@ -14,7 +14,7 @@ login_schema = {
     "properties": {
         "email": {"type": "string"},
         "password": {"type": "string"},
-    }
+    },
 }
 
 
@@ -41,8 +41,8 @@ def login():
         raise Unauthorized()
 
     # Flask stores the session data in a cookie so be careful not to put any sensitive data in there
-    session['user_id'] = user.id
-    session['session_id'] = str(uuid4())
+    session["user_id"] = user.id
+    session["session_id"] = str(uuid4())
 
     # If user roles are implemented, store it in the session to add a firewall on the routes
 
@@ -53,7 +53,7 @@ def login():
         public_key=user.public_key,
         private_key=user.private_key,
         creation_date=user.creation_date,
-        email_verification_date=user.email_verification_date
+        email_verification_date=user.email_verification_date,
     )
 
 
