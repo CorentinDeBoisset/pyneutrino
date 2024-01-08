@@ -16,6 +16,7 @@ import { TimeFromNowPipe } from '../../services/timeFromNowPipe';
 export class HomePageComponent implements OnInit {
   conversations: Array<Conversation>;
   conversationFetchError!: string | null;
+  newConversationError!: string | null;
 
   constructor(private router: Router, private httpClient: HttpClient) {
     this.conversations = [];
@@ -43,7 +44,7 @@ export class HomePageComponent implements OnInit {
     e.preventDefault()
 
     const req = this.httpClient.post<Conversation>("/api/messaging/conversations/new", null)
-      .pipe(catchError(err => this.handleNewConversationError(err)))
+      .pipe(catchError(() => this.handleNewConversationError()))
 
     req.subscribe(data => {
       this.conversations.unshift(data)
@@ -51,8 +52,8 @@ export class HomePageComponent implements OnInit {
     })
   }
 
-  handleNewConversationError(err: HttpErrorResponse) {
-    // FIXME
+  handleNewConversationError() {
+    this.newConversationError = $localize`:create-conversation-error:There was an error when creating a new conversation`
     return EMPTY
   }
 }

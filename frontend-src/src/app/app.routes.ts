@@ -43,6 +43,6 @@ export const routes: Routes = [
     path: "conversation/:id",
     component: ConversationPageComponent,
     title: "Conversation - Neutrino",
-    canActivate: [requiresAuth],
+    // The creator must be logged in, the receiver can be either logged or anonymous
   },
 ];

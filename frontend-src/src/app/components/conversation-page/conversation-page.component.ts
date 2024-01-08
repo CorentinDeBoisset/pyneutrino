@@ -1,10 +1,10 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { EMPTY, switchMap, catchError, Observable, of } from 'rxjs';
-import { Conversation } from '../../stores/types';
+import { tap, switchMap, catchError, Observable, EMPTY, of, combineLatest, Unsubscribable } from 'rxjs';
+import { Conversation, UserEntity } from '../../stores/types';
 import { CommonModule } from '@angular/common';
-import { Location } from '@angular/common';
+import { IdentityStore } from '../../stores/indentityStore';
 
 @Component({
   selector: 'app-conversation-page',
@@ -13,13 +13,22 @@ import { Location } from '@angular/common';
   templateUrl: './conversation-page.component.html',
   styleUrl: './conversation-page.component.scss'
 })
-export class ConversationPageComponent implements OnInit {
+export class ConversationPageComponent implements OnInit, OnDestroy {
   conversation$!: Observable<Conversation|null>
-  conversationFetchError!: string|null;
+  conversationFetchError!: string|null
+  currentUser$!: Observable<UserEntity|null>
+  userAndConversationSub!: Unsubscribable
 
-  constructor(private httpClient: HttpClient, private route: ActivatedRoute, private router: Router, private location: Location) { }
+  constructor(
+    private httpClient: HttpClient,
+    private route: ActivatedRoute,
+    private router: Router,
+    private identityStore: IdentityStore
+  ) { }
 
   ngOnInit() {
+    this.currentUser$ = this.identityStore.user$;
+
     this.conversation$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
         const conversationId = params.get('id');
@@ -27,10 +36,39 @@ export class ConversationPageComponent implements OnInit {
           return of(null)
         }
 
-        return this.httpClient.get<Conversation>(`/api/messaging/conversations//${conversationId}`)
+        return this.httpClient.get<Conversation>(`/api/messaging/conversations/${conversationId}`)
           .pipe(catchError(err => this.handleGetConversationError(err)))
       })
     )
+
+    this.userAndConversationSub = combineLatest([this.conversation$, this.currentUser$])
+    .pipe(tap(([conv, user]) => {
+        if (
+          conv !== null &&
+          user !== null &&
+          user.id !== conv.creator_id &&
+          conv.receiver_id === null
+        ) {
+          const inviteCode = this.route.snapshot.queryParamMap.get('invite-code');
+
+          // The current user is not the creator, and the receiver has not yet been set
+          // So we request that this user be attached as receiver of the conversation
+          this.httpClient.post(`/api/messaging/conversations/${conv.id}/join`, { "invite_code": inviteCode })
+            .pipe(catchError(err => this.handleGetConversationError(err)))
+            .subscribe(() => {
+              // Remove the invite code query parameter
+              // This will trigger a refresh of the conversation
+              this.router.navigate(["/conversation", { id: conv.id }])
+            })
+
+          return
+        }
+      }))
+      .subscribe()
+  }
+
+  ngOnDestroy() {
+    this.userAndConversationSub.unsubscribe()
   }
 
   handleGetConversationError(err: HttpErrorResponse) {

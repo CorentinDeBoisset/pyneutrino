@@ -41,6 +41,7 @@ export class IdentityStore {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!(<any>window).hasSession) {
       window.localStorage.clear();
+      this.userSubject.next(null);
       return
     }
 
@@ -52,6 +53,7 @@ export class IdentityStore {
 
     if (userId === null || userEmail === null || username === null || privKey === null || pubKey === null) {
       window.localStorage.clear();
+      this.userSubject.next(null);
       return
     }
 

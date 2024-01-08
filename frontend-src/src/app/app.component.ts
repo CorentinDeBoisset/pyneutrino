@@ -15,20 +15,20 @@ import { Subscription } from 'rxjs';
 })
 export class AppComponent implements OnInit, OnDestroy {
   isAuthenticated: boolean = false
-  authenticatedSubsription: Subscription | undefined
+  authenticatedSubscription: Subscription | undefined
 
   constructor(private httpClient: HttpClient, private router: Router, private identityStore: IdentityStore) { }
 
   ngOnInit() {
     this.identityStore.restoreUserSession();
-    this.authenticatedSubsription = this.identityStore.user$.subscribe(next => {
+    this.authenticatedSubscription = this.identityStore.user$.subscribe(next => {
       this.isAuthenticated = (next !== null)
     })
   }
 
   ngOnDestroy() {
     // This is not really necessary since this is the root component and it never gets destroyed
-    this.authenticatedSubsription?.unsubscribe()
+    this.authenticatedSubscription?.unsubscribe()
   }
 
   submitLogout(e: SubmitEvent) {

@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, g, request
 from uuid import uuid4
 from datetime import datetime
 import secrets
-from werkzeug.exceptions import BadRequest, NotFound
+from werkzeug.exceptions import BadRequest, NotFound, Conflict
 from sqlalchemy import text
 from sqlalchemy.exc import NoResultFound
 from pyneutrino.services import authguard, serialize
@@ -41,6 +41,26 @@ def get_own_conversations():
     ))
 
 
+@ConversationBp.route("/new", methods=["POST"])
+@authguard
+def new_conversation():
+    new_conversation = Conversation(
+        id=uuid4(),
+        invite_code=secrets.token_urlsafe(32),
+        creator_id=g.current_user.id,
+        creation_date=datetime.now(),
+        last_update_date=datetime.now(),
+    )
+
+    db.session.add(new_conversation)
+    db.session.commit()
+
+    return jsonify(serialize(
+        new_conversation,
+        ["id", "creator_id", "receiver_id", "creation_date", "last_update_date"]
+    )), 201
+
+
 @ConversationBp.route("/<uuid:id>")
 @authguard
 def get_conversation(id: str):
@@ -67,21 +87,28 @@ def get_conversation(id: str):
     raise NotFound
 
 
-@ConversationBp.route("/new", methods=["POST"])
+@ConversationBp.route("/<uuid:id>/join")
 @authguard
-def new_conversation():
-    new_conversation = Conversation(
-        id=uuid4(),
-        invite_code=secrets.token_urlsafe(32),
-        creator_id=g.current_user.id,
-        creation_date=datetime.now(),
-        last_update_date=datetime.now(),
-    )
+def join_conversation(id: str):
+    try:
+        conversation: Conversation = db.session.execute(db.session.query(Conversation).filter_by(id=id)).scalar_one()
+    except NoResultFound:
+        raise NotFound
 
-    db.session.add(new_conversation)
+    # If the (uuid/invite code) is invalid, we return a 404 as well
+    if conversation.invite_code == request.args.get('invite_code', default=None):
+        raise NotFound
+
+    if conversation.creator_id == g.current_user.id:
+        raise Conflict("The creator of a conversation cannot be on the receiving end")
+
+    if conversation.receiver_id is not None:
+        raise Conflict("The conversation already has a receiver")
+
+    conversation.receiver_id = g.current_user.id
     db.session.commit()
 
     return jsonify(serialize(
-        new_conversation,
+        conversation,
         ["id", "creator_id", "receiver_id", "creation_date", "last_update_date"]
-    )), 201
+    ))

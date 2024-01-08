@@ -1,14 +1,20 @@
 <div>
-    <div *ngIf="conversationFetchError">{{ conversationFetchError }}</div>
-    <div *ngIf="conversation$ | async as conversation">
-        <div *ngIf="conversation.receiver_id; else conversation_not_started">
-            {{ conversation | json }}
+    <div *ngIf="conversation$ | async as conv">
+        <div *ngIf="currentUser$ | async as user; else accessForm">
+            <div *ngIf="user.id === conv.creator_id && conv.receiver_id === null">
+                <h3 i18n="conversation-standby">Standby</h3>
+                <div i18n="conversation-waiting-for-peeer">Waiting for a peer to enter the conversation</div>
+                <div i18n="conversation-share-label">You can share this link to invite a contact to the conversation:</div>
+                <div>{{ calculateInviteLink(conv.id, conv.invite_code) }}</div>
+            </div>
+            <div *ngIf="(conv.receiver_id !== null && user.id === conv.creator_id) || user.id === conv.receiver_id">
+                Conversation content
+            </div>
         </div>
-        <ng-template #conversation_not_started>
-            <h3 i18n="conversation-standby">Standby</h3>
-            <div i18n="conversation-waiting-for-peeer">Waiting for a peer to enter the conversation</div>
-            <div i18n="conversation-share-label">You can share this link to invite a contact to the conversation:</div>
-            <div>{{ calculateInviteLink(conversation.id, conversation.invite_code) }}</div>
-        </ng-template>
     </div>
+    <div *ngIf="conversationFetchError">{{ conversationFetchError }}</div>
 </div>
+
+<ng-template #accessForm>
+    <span>access form</span>
+</ng-template>
