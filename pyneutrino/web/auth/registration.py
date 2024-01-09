@@ -69,7 +69,7 @@ new_anonymous_account_schema = {
 
 
 @RegistrationBp.route("/new-anonymous-account", methods=["POST"])
-@validate_schema(new_account_schema)
+@validate_schema(new_anonymous_account_schema)
 def new_anonymous_account():
     json_body = request.get_json()
 

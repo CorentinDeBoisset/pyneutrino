@@ -14,7 +14,7 @@ class UserAccount(Base):
     id: Mapped[str] = mapped_column(Uuid, primary_key=True)
     username: Mapped[str] = mapped_column(String, unique=True, nullable=True)
     public_key: Mapped[str] = mapped_column(Text)
-    private_key: Mapped[str] = mapped_column(Text)
+    private_key: Mapped[str] = mapped_column(Text, nullable=True)
     creation_date: Mapped[datetime] = mapped_column(DateTime)
     email: Mapped[str] = mapped_column(String, unique=True, nullable=True)
     password_hash: Mapped[str] = mapped_column(String, nullable=True)
