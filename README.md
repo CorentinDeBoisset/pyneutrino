@@ -25,6 +25,7 @@ docker compose up -d
 You can initialize and start the backend with:
 
 ```bash
+poetry install
 poetry run alembic upgrade head
 poetry run gunicorn 'pyneutrino:create_app()' --reload
 ```
@@ -45,7 +46,7 @@ npm install
 npm start
 ```
 
-The application is then available at [http://localhost:4200]
+The application is then available on http://localhost:4200
 
 Important caveats:
 * This project does not use the Flask-SQLAlchemy extension. Do not go to their documentation for insights, but SQLAlchemy's instead.

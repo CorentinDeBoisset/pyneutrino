@@ -37,7 +37,7 @@ def login():
     if (not session.new) and ("user_id" in session) and (session["user_id"] != user.id):
         session.clear()
 
-    ph = PasswordHasher
+    ph = PasswordHasher()
     if not ph.verify(user.password_hash, json_body["password"]):
         session.clear()
         raise Unauthorized()

@@ -24,10 +24,10 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/pyneutrino-frontend",
-            "main": "src/main.ts",
+            "outputPath": "dist",
+            "browser": "src/main.ts",
             "assets": [
               "src/static"
             ],
@@ -43,17 +43,13 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/static/",
               "index": {
                 "input": "src/index_prod.html",
                 "output": "home.html"
               },
-              "deployUrl": "static/",
               "assets": [
-                {
-                  "input": "src/static",
-                  "glob": "**/*",
-                  "output": "."
-                }
+                "src/img"
               ],
               "budgets": [
                 {
