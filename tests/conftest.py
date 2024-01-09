@@ -2,7 +2,7 @@ import pytest
 from pyneutrino import create_app
 from sqlalchemy import create_engine, text
 
-SQLALCHEMY_DATABASE_URL = "postgresql://neutrinotest:neutrinotestpwd@127.0.0.1:5432/neutrinotest"
+SQLALCHEMY_DATABASE_URL = "postgresql://pytest:pytestpwd@127.0.0.1:5432/pytest"
 
 
 @pytest.fixture

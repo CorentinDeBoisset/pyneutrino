@@ -8,6 +8,6 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
 EOSQL
 
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
-	CREATE USER neutrinotest PASSWORD 'neutrinotestpwd';
-	CREATE DATABASE neutrinotest OWNER neutrinotest;
+	CREATE USER pytest PASSWORD 'pytestpwd';
+	CREATE DATABASE pytest OWNER pytest;
 EOSQL

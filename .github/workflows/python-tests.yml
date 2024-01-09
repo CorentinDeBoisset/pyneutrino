@@ -1,0 +1,48 @@
+name: Python package
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    services:
+      database:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: rootpwd
+          POSTGRES_USER: root
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 127.0.0.1:5432:5432
+
+    steps:
+      - name: Install the PostgreSQL client
+        run: sudo apt update && sudo apt install -y postgresql-client
+      - name: Setup the test database
+        run: |
+          PGPASSWORD=rootpwd psql -h localhost -p 5432 -U root \
+          -c "CREATE USER pytest PASSWORD 'pytestpwd';" \
+          -c "CREATE DATABASE pytest OWNER pytest;"
+      - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+          cache: 'poetry'
+      - run: poetry install
+      - run: poetry run tox
