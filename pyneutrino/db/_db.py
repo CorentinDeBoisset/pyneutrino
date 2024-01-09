@@ -17,14 +17,11 @@ class SQLAlchemy:
     def shutdown_session(self, exception: BaseException | None = None):
         self.session.remove()
 
-    def init_standalone(self, url: str, echo: bool = False):
-        self.engine = create_engine(url, echo=echo)
-        self.session = scoped_session(sessionmaker(self.engine), self.get_context_id)
-
     def init_app(self, app: Flask):
         url = app.config["SQLALCHEMY_DATABASE_URI"]
         echo = app.config.get("SQLALCHEMY_ECHO", False)
-        self.init_standalone(url, echo)
+        self.engine = create_engine(url, echo=echo)
+        self.session = scoped_session(sessionmaker(self.engine), self.get_context_id)
         app.teardown_appcontext(self.shutdown_session)
 
 

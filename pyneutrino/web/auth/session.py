@@ -1,5 +1,5 @@
 from flask import Blueprint, request, session, jsonify
-from passlib.hash import argon2
+from argon2 import PasswordHasher
 from pyneutrino.services import validate_schema
 from pyneutrino.db import db, UserAccount
 from werkzeug.exceptions import Unauthorized
@@ -37,7 +37,8 @@ def login():
     if (not session.new) and ("user_id" in session) and (session["user_id"] != user.id):
         session.clear()
 
-    if not argon2.verify(json_body["password"], user.password_hash):
+    ph = PasswordHasher
+    if not ph.verify(user.password_hash, json_body["password"]):
         session.clear()
         raise Unauthorized()
 

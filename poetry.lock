@@ -760,23 +760,6 @@ files = [
 ]
 
 [[package]]
-name = "passlib"
-version = "1.7.4"
-description = "comprehensive password hashing framework supporting over 30 schemes"
-optional = false
-python-versions = "*"
-files = [
-    {file = "passlib-1.7.4-py2.py3-none-any.whl", hash = "sha256:aa6bca462b8d8bda89c70b382f0c298a20b5560af6cbfa2dce410c0a2fb669f1"},
-    {file = "passlib-1.7.4.tar.gz", hash = "sha256:defd50f72b65c5402ab2c573830a6978e5f202ad0d984793c8dde2c4152ebe04"},
-]
-
-[package.extras]
-argon2 = ["argon2-cffi (>=18.2.0)"]
-bcrypt = ["bcrypt (>=3.1.0)"]
-build-docs = ["cloud-sptheme (>=1.10.1)", "sphinx (>=1.6)", "sphinxcontrib-fulltoc (>=1.2.0)"]
-totp = ["cryptography"]
-
-[[package]]
 name = "pathspec"
 version = "0.12.1"
 description = "Utility library for gitignore style pattern matching of file paths."
@@ -971,6 +954,22 @@ tomli = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
 
 [package.extras]
 testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
+
+[[package]]
+name = "pytest-alembic"
+version = "0.10.7"
+description = "A pytest plugin for verifying alembic migrations."
+optional = false
+python-versions = ">=3.6,<4"
+files = [
+    {file = "pytest_alembic-0.10.7-py3-none-any.whl", hash = "sha256:69b7d756c26c07060734c9c346e2250f58f78ba5e6cdf4d8a5d2558a551c6348"},
+    {file = "pytest_alembic-0.10.7.tar.gz", hash = "sha256:19d256424684d6c83e31b2410b73f1a435799396241b155d54aa103836e4640f"},
+]
+
+[package.dependencies]
+alembic = "*"
+pytest = ">=6.0"
+sqlalchemy = "*"
 
 [[package]]
 name = "pytest-cov"
@@ -1312,14 +1311,14 @@ files = [
 referencing = "*"
 
 [[package]]
-name = "types-passlib"
-version = "1.7.7.20240106"
-description = "Typing stubs for passlib"
+name = "types-pyyaml"
+version = "6.0.12.12"
+description = "Typing stubs for PyYAML"
 optional = false
-python-versions = ">=3.8"
+python-versions = "*"
 files = [
-    {file = "types-passlib-1.7.7.20240106.tar.gz", hash = "sha256:2231ae83d1dd9e485b7ec6041d81b4f9c66403d1767360e860605a90db48ea27"},
-    {file = "types_passlib-1.7.7.20240106-py3-none-any.whl", hash = "sha256:347aa64d4c2bc239f3765fe38fc79dad3d67f9def7b3ea721daaaaa835a91dad"},
+    {file = "types-PyYAML-6.0.12.12.tar.gz", hash = "sha256:334373d392fde0fdf95af5c3f1661885fa10c52167b14593eb856289e1855062"},
+    {file = "types_PyYAML-6.0.12.12-py3-none-any.whl", hash = "sha256:c05bc6c158facb0676674b7f11fe3960db4f389718e19e62bd2b84d6205cfd24"},
 ]
 
 [[package]]
@@ -1373,4 +1372,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "a2a8ff3520a9d4c2e4db033491be82417efb627eca01a3679e112520d23fb9d6"
+content-hash = "44772d59cc5016c38dc5d5b0e3c05751f5fcfb1ff44b09c07663d57b9b475294"

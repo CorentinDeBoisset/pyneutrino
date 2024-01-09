@@ -1,6 +1,6 @@
 import secrets
 from uuid import uuid4
-from passlib.hash import argon2
+from argon2 import PasswordHasher
 from flask import Blueprint, request, jsonify
 from sqlalchemy import select
 from werkzeug.exceptions import Conflict
@@ -30,8 +30,9 @@ def new_account():
 
     # TODO: check password strength, validate private and public key format
 
-    password_hash = argon2.hash(json_body["password"])
-    verification_code_hash = argon2.hash(secrets.token_urlsafe(32))
+    ph = PasswordHasher()
+    password_hash = ph.hash(json_body["password"])
+    verification_code_hash = ph.hash(secrets.token_urlsafe(32))
 
     # Check the username and email are not already reserved
     existing_email = db.session.execute(select(UserAccount).filter_by(email=json_body["email"])).scalar()
