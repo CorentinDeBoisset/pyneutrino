@@ -1,6 +1,6 @@
 <div>
     <h2 i18n="homepage-welcome">Welcome to neutrino</h2>
-    <form (submit)="newConversationSubmit($event)">
+    <form (submit)="newConversationSubmit($event)" *ngIf="(currentUser$ | async)?.email">
         <button type="submit" i18n="homepage-start-conversation">Start a new conversation</button>
         <div *ngIf="newConversationError">{{ newConversationError }}</div>
     </form>

@@ -1,4 +1,4 @@
-"""Make private_keys nullable for anonymous accounts
+"""Make private_keys nullable for guest accounts
 
 Revision ID: 3b0d8abd0281
 Revises: 62dce14e12c2

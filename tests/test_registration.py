@@ -31,15 +31,3 @@ def test_registration_schema(app: Flask):
     )
 
     assert res.status_code == 400
-
-
-def test_anonymous_registration(app: Flask):
-    client = app.test_client()
-    res = client.post(
-        "/api/auth/register/new-anonymous-account",
-        json={
-            "public_key": "PUBLIC_KEY",
-        },
-    )
-
-    assert res.status_code == 201

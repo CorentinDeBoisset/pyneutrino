@@ -60,34 +60,6 @@ def new_account():
     return jsonify(message="Ok"), 201
 
 
-new_anonymous_account_schema = {
-    "required": ["public_key"],
-    "properties": {
-        "public_key": {"type": "string"},
-    },
-}
-
-
-@RegistrationBp.route("/new-anonymous-account", methods=["POST"])
-@validate_schema(new_anonymous_account_schema)
-def new_anonymous_account():
-    json_body = request.get_json()
-
-    # We don't define a password, the user won't be able to login again
-    # TODO: add a cleanup task to purge old anonymous users
-
-    new_user = UserAccount(
-        id=uuid4(),
-        public_key=json_body["public_key"],
-        creation_date=datetime.now(),
-    )
-
-    db.session.add(new_user)
-    db.session.commit()
-
-    return jsonify(message="Ok"), 201
-
-
 validate_account_schema = {
     "required": ["email", "validation_code"],
     "properties": {

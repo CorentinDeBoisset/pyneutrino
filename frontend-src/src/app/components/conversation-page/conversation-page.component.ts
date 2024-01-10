@@ -1,8 +1,8 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { tap, switchMap, catchError, Observable, EMPTY, of, combineLatest, Unsubscribable } from 'rxjs';
-import { Conversation, UserEntity } from '../../stores/types';
+import { ActivatedRoute, Router } from '@angular/router';
+import { tap, switchMap, catchError, Observable, EMPTY, of, Unsubscribable, share, BehaviorSubject, combineLatest } from 'rxjs';
+import { Conversation, LoginResponse, UserEntity } from '../../stores/types';
 import { CommonModule } from '@angular/common';
 import { IdentityStore } from '../../stores/indentityStore';
 
@@ -15,60 +15,105 @@ import { IdentityStore } from '../../stores/indentityStore';
 })
 export class ConversationPageComponent implements OnInit, OnDestroy {
   conversation$!: Observable<Conversation|null>
-  conversationFetchError!: string|null
   currentUser$!: Observable<UserEntity|null>
-  userAndConversationSub!: Unsubscribable
+  conversationFetchError!: string|null
+  conversationSub!: Unsubscribable
+  refreshConv!: BehaviorSubject<void>
 
   constructor(
     private httpClient: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
     private identityStore: IdentityStore
-  ) { }
+  ) {
+    this.refreshConv = new BehaviorSubject<void>(undefined)
+  }
 
   ngOnInit() {
-    this.currentUser$ = this.identityStore.user$;
+    this.currentUser$ = this.identityStore.user$
 
-    this.conversation$ = this.route.paramMap.pipe(
-      switchMap((params: ParamMap) => {
+    // We combine this.route.paramMap with an empty Subject to be able to force a refresh of the conversation
+    this.conversation$ = combineLatest([this.route.paramMap, this.refreshConv]).pipe(
+      switchMap(([params]) => {
         const conversationId = params.get('id');
         if (conversationId === null) {
           return of(null)
         }
 
-        return this.httpClient.get<Conversation>(`/api/messaging/conversations/${conversationId}`)
-          .pipe(catchError(err => this.handleGetConversationError(err)))
-      })
+        const inviteCode = this.route.snapshot.queryParamMap.get('invite_code');
+        let queryString: HttpParams|undefined
+        if (inviteCode) {
+          queryString = new HttpParams().set('invite_code', inviteCode)
+        }
+
+        return this.httpClient.get<Conversation>(
+          `/api/messaging/conversations/${conversationId}`,
+          { params: queryString }
+        )
+        .pipe(catchError(err => this.handleGetConversationError(err)))
+      }),
+      share(),
     )
 
-    this.userAndConversationSub = combineLatest([this.conversation$, this.currentUser$])
-    .pipe(tap(([conv, user]) => {
+    this.conversationSub = this.conversation$.pipe(
+      tap((conv) => {
+        const user = this.identityStore.getCurrentUser();
         if (
           conv !== null &&
           user !== null &&
-          user.id !== conv.creator_id &&
-          conv.receiver_id === null
+          user.id !== conv.creator_id
         ) {
-          const inviteCode = this.route.snapshot.queryParamMap.get('invite-code');
+          if (conv.receiver_id !== null) {
+            if (conv.receiver_id !== user.id) {
+              // The user propably used a valid invite code, but it's already been used
+              this.conversationFetchError = $localize`:conversation-already-joined:This conversation has already be joined by another user`
+            }
+            return
+          }
+
+          const inviteCode = this.route.snapshot.queryParamMap.get('invite_code');
 
           // The current user is not the creator, and the receiver has not yet been set
           // So we request that this user be attached as receiver of the conversation
           this.httpClient.post(`/api/messaging/conversations/${conv.id}/join`, { "invite_code": inviteCode })
-            .pipe(catchError(err => this.handleGetConversationError(err)))
+          .pipe(catchError(err => this.handleGetConversationError(err)))
             .subscribe(() => {
               // Remove the invite code query parameter
-              // This will trigger a refresh of the conversation
-              this.router.navigate(["/conversation", { id: conv.id }])
+              this.router
+                .navigate(["/conversation", conv.id], { queryParams: {} })
+                .then(() => this.refreshConv.next()) // Force a refresh of the conversation
             })
-
-          return
         }
-      }))
-      .subscribe()
+      })
+    ).subscribe()
+  }
+
+  async guestJoin(e: SubmitEvent,convId: string) {
+    e.preventDefault();
+
+    const inviteCode = this.route.snapshot.queryParamMap.get('invite_code');
+
+    // There is no current user.
+    // We call the guest-join route that will create a temporary user for us and log us in.
+    const keyPair = await this.identityStore.generatePgpKeyPair("", "Anonymous Guest", "")
+    this.httpClient.post<LoginResponse>(
+      `/api/messaging/conversations/${convId}/guest-join`,
+      { "invite_code": inviteCode, "public_key": keyPair.publicKey }
+    )
+    .pipe(catchError(err => this.handleGetConversationError(err)))
+    .subscribe(data => {
+      // We also log in the user in the frontend
+      this.identityStore.initGuestSession(data.id, keyPair)
+
+      // Remove the invite code query parameter
+      this.router
+        .navigate(["/conversation", convId], { queryParams: {}})
+        .then(() => this.refreshConv.next()) // Force a refresh of the conversation
+    })
   }
 
   ngOnDestroy() {
-    this.userAndConversationSub.unsubscribe()
+    this.conversationSub.unsubscribe()
   }
 
   handleGetConversationError(err: HttpErrorResponse) {

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { generateKey, readPrivateKey, readKey, decryptKey } from "openpgp";
+import { generateKey, readPrivateKey, readKey, decryptKey, KeyPair, SerializedKeyPair } from "openpgp";
 import { LoginResponse, UserEntity } from "./types";
 
 @Injectable({ providedIn: 'root' })
@@ -36,6 +36,19 @@ export class IdentityStore {
     });
   }
 
+  initGuestSession(userId: string, keyPair: SerializedKeyPair<string>) {
+    window.localStorage.setItem("guest_user_id", userId);
+    window.localStorage.setItem("guest_public_key", JSON.stringify(keyPair.publicKey))
+    window.localStorage.setItem("guest_private_key", JSON.stringify(keyPair.privateKey))
+    this.userSubject.next({
+      id: userId,
+      email: "",
+      username: "",
+      publicKey: keyPair.publicKey,
+      privateKey: keyPair.privateKey,
+    })
+  }
+
   restoreUserSession() {
     // this property is defined in the html by the server, since we cannot list httpOnly cookies from the JS
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -52,8 +65,25 @@ export class IdentityStore {
     const pubKey = JSON.parse(window.localStorage.getItem("user_public_key") || '""');
 
     if (userId === null || userEmail === null || username === null || privKey === null || pubKey === null) {
-      window.localStorage.clear();
-      this.userSubject.next(null);
+      // If there is not a standard logged in user, we try to load as a guest user
+      const userId = window.localStorage.getItem("guest_user_id");
+      const privKey = JSON.parse(window.localStorage.getItem("guest_public_key") || '""')
+      const pubKey = JSON.parse(window.localStorage.getItem("guest_private_key") || '""')
+
+      if (!userId || !privKey || !pubKey) {
+        window.localStorage.clear();
+        this.userSubject.next(null);
+        return
+      }
+
+      this.userSubject.next({
+        id: userId,
+        email: "",
+        username: "",
+        publicKey: pubKey,
+        privateKey: privKey,
+      })
+
       return
     }
 
@@ -66,6 +96,10 @@ export class IdentityStore {
       publicKey: pubKey,
       privateKey: privKey,
     })
+  }
+
+  getCurrentUser(): UserEntity|null {
+    return this.userSubject.getValue();
   }
 
   isAuthenticated(): boolean {

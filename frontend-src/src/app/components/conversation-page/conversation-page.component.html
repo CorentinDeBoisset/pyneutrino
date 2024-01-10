@@ -11,10 +11,12 @@
                 Conversation content
             </div>
         </div>
+        <ng-template #accessForm>
+            <form (submit)="guestJoin($event, conv.id)">
+                <h3>access form</h3>
+                <input type="submit" i18n-value="conversation-guest-join-action" value="Join as a guest">
+            </form>
+        </ng-template>
     </div>
     <div *ngIf="conversationFetchError">{{ conversationFetchError }}</div>
 </div>
-
-<ng-template #accessForm>
-    <span>access form</span>
-</ng-template>

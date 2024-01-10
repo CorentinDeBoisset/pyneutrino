@@ -1,10 +1,11 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { catchError, EMPTY } from 'rxjs';
-import { Conversation } from '../../stores/types';
+import { catchError, EMPTY, Observable } from 'rxjs';
+import { Conversation, UserEntity } from '../../stores/types';
 import { CommonModule } from '@angular/common';
 import { TimeFromNowPipe } from '../../services/timeFromNowPipe';
+import { IdentityStore } from '../../stores/indentityStore';
 
 @Component({
   selector: 'app-home-page',
@@ -14,11 +15,13 @@ import { TimeFromNowPipe } from '../../services/timeFromNowPipe';
   styleUrl: './home-page.component.scss'
 })
 export class HomePageComponent implements OnInit {
+  currentUser$: Observable<UserEntity|null>;
   conversations: Array<Conversation>;
   conversationFetchError!: string | null;
   newConversationError!: string | null;
 
-  constructor(private router: Router, private httpClient: HttpClient) {
+  constructor(private router: Router, private httpClient: HttpClient, private identityStore: IdentityStore) {
+    this.currentUser$ = this.identityStore.user$;
     this.conversations = [];
   }
 

@@ -1,11 +1,10 @@
-from flask import Blueprint, request, session, jsonify
+from flask import Blueprint, request, session
 from argon2 import PasswordHasher
-from pyneutrino.services import validate_schema
+from pyneutrino.services import validate_schema, login_user, serialize
 from pyneutrino.db import db, UserAccount
 from werkzeug.exceptions import Unauthorized
 from sqlalchemy.exc import NoResultFound
 from sqlalchemy import select
-from uuid import uuid4
 
 SessionBp = Blueprint("auth", __name__, url_prefix="/api/auth/session")
 
@@ -21,7 +20,7 @@ login_schema = {
 
 @SessionBp.route("/login", methods=["POST"])
 @validate_schema(login_schema)
-def login():
+def login_route():
     json_body = request.get_json()
 
     # In the future, maybe replace the authentication method with SRP:
@@ -42,25 +41,15 @@ def login():
         session.clear()
         raise Unauthorized()
 
-    # Flask stores the session data in a cookie so be careful not to put any sensitive data in there
-    session["user_id"] = user.id
-    session["session_id"] = str(uuid4())
+    login_user(user)
 
-    # If user roles are implemented, store it in the session to add a firewall on the routes
-
-    return jsonify(
-        id=user.id,
-        email=user.email,
-        username=user.username,
-        public_key=user.public_key,
-        private_key=user.private_key,
-        creation_date=user.creation_date,
-        email_verification_date=user.email_verification_date,
+    return serialize(
+        user, ["id", "email", "username", "public_key", "private_key", "creation_date", "email_verification_date"]
     )
 
 
 @SessionBp.route("/logout", methods=["POST"])
-def logout():
+def logout_route():
     session.clear()
 
     return "", 204
