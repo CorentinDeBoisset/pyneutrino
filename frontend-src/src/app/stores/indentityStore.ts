@@ -67,8 +67,8 @@ export class IdentityStore {
     if (userId === null || userEmail === null || username === null || privKey === null || pubKey === null) {
       // If there is not a standard logged in user, we try to load as a guest user
       const userId = window.localStorage.getItem("guest_user_id");
-      const privKey = JSON.parse(window.localStorage.getItem("guest_public_key") || '""')
-      const pubKey = JSON.parse(window.localStorage.getItem("guest_private_key") || '""')
+      const pubKey = JSON.parse(window.localStorage.getItem("guest_public_key") || '""')
+      const privKey = JSON.parse(window.localStorage.getItem("guest_private_key") || '""')
 
       if (!userId || !privKey || !pubKey) {
         window.localStorage.clear();
