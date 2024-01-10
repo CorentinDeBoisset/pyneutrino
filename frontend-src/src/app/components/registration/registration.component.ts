@@ -65,7 +65,7 @@ export class RegistrationComponent {
   handleRegistrationError(err: HttpErrorResponse) {
     let errMsg: string = ""
     if (err.status === 0) {
-      errMsg = $localize`:request-network-error:The request failed to be sent`
+      errMsg = $localize`:request-network-error:The request could not be sent`
     } else if (err.status === 400) {
       errMsg = $localize`:register-invalid-request:The login request is invalid`
     } else if (err.status === 409) {
