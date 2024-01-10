@@ -3,7 +3,6 @@ import errno
 import yaml
 import json
 from flask import Flask
-from flask_socketio import SocketIO
 
 from .db import db
 from .hooks import register as register_hooks
@@ -11,7 +10,6 @@ from .web.home import register as register_home
 from .web.error_management import register_error_handlers
 from .web.auth import register as register_auth
 from .web.messaging import register as register_messaging
-from .web.sockets import register_sockets
 
 
 def get_config():
@@ -75,7 +73,4 @@ def create_app(test_config=None):
     register_auth(app)
     register_messaging(app)
 
-    socketio = SocketIO(app)
-    register_sockets(socketio)
-
-    return socketio
+    return app

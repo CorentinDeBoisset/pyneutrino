@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, g, request, session, current_app
+from flask import Blueprint, jsonify, g, request, session
 from uuid import uuid4
 from datetime import datetime
 import secrets
