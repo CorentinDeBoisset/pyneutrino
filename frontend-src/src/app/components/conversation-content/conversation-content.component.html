@@ -1,0 +1,15 @@
+<div>
+    <h3>Conversation</h3>
+    <div>Created on {{ conversation.creation_date | date:'medium' }}</div>
+    <div>
+        <div *ngFor="let message of messages">
+            {{ message.message }}
+        </div>
+        <div *ngIf="loadError">{{ loadError }}</div>
+    </div>
+    <form (submit)="handleSendMessage($event)">
+        <input type="text" name="message" [formControl]="newMessage" />
+        <input type="submit" i18n-value="conversation-message-send" value="Send">
+        <div *ngIf="sendMessageError">{{ sendMessageError }}</div>
+    </form>
+</div>

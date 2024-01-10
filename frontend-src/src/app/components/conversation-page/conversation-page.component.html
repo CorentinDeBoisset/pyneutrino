@@ -8,7 +8,8 @@
                 <div>{{ calculateInviteLink(conv.id, conv.invite_code) }}</div>
             </div>
             <div *ngIf="(conv.receiver_id !== null && user.id === conv.creator_id) || user.id === conv.receiver_id">
-                Conversation content
+                <app-conversation-content [conversation]="conv">
+                </app-conversation-content>
             </div>
         </div>
         <ng-template #accessForm>

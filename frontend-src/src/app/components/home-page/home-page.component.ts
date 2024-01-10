@@ -16,7 +16,7 @@ import { IdentityStore } from '../../stores/indentityStore';
 })
 export class HomePageComponent implements OnInit {
   currentUser$: Observable<UserEntity|null>;
-  conversations: Array<Conversation>;
+  conversations: Conversation[];
   conversationFetchError!: string | null;
   newConversationError!: string | null;
 
@@ -26,7 +26,7 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   const req = this.httpClient.get<Array<Conversation>>("/api/messaging/conversations/own")
+   const req = this.httpClient.get<Conversation[]>("/api/messaging/conversations/own")
       .pipe(catchError(err => this.handleGetConversationError(err)))
 
     req.subscribe(data => {

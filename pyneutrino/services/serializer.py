@@ -1,4 +1,5 @@
 from sqlalchemy.engine import ScalarResult
+from typing import Sequence
 
 
 def serialize_obj(obj, attributes: list):
@@ -11,10 +12,10 @@ def serialize_list(objs: list, attributes: list):
 
 
 def serialize(source, attributes: list):
-    if type(source) is ScalarResult:
+    if isinstance(source, ScalarResult):
         return serialize_list(list(source.all()), attributes)
 
-    if type(source) in [list, tuple]:
+    if isinstance(source, Sequence):
         return serialize_list(source, attributes)
 
     return serialize_obj(source, attributes)

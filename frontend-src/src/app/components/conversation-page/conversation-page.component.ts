@@ -5,11 +5,12 @@ import { tap, switchMap, catchError, Observable, EMPTY, of, Unsubscribable, shar
 import { Conversation, LoginResponse, UserEntity } from '../../stores/types';
 import { CommonModule } from '@angular/common';
 import { IdentityStore } from '../../stores/indentityStore';
+import { ConversationContentComponent } from '../conversation-content/conversation-content.component';
 
 @Component({
   selector: 'app-conversation-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ConversationContentComponent],
   templateUrl: './conversation-page.component.html',
   styleUrl: './conversation-page.component.scss'
 })
@@ -98,7 +99,7 @@ export class ConversationPageComponent implements OnInit, OnDestroy {
     const keyPair = await this.identityStore.generatePgpKeyPair("", "Anonymous Guest", "")
     this.httpClient.post<LoginResponse>(
       `/api/messaging/conversations/${convId}/guest-join`,
-      { "invite_code": inviteCode, "public_key": keyPair.publicKey }
+      { "invite_code": inviteCode, "public_key": keyPair.publicKey.armor() }
     )
     .pipe(catchError(err => this.handleGetConversationError(err)))
     .subscribe(data => {

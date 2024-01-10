@@ -15,7 +15,7 @@ jobs:
 
     runs-on: ubuntu-latest
     services:
-      database:
+      db:
         image: postgres
         env:
           POSTGRES_PASSWORD: rootpwd

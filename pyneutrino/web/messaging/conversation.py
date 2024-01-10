@@ -72,8 +72,8 @@ def get_conversation(id: str):
     # There is no authentication guard on this route (since an guest user can use an access code)
     # Therefore, g.current_user is not defined and we read the user_id from session
     if (
-        conversation.creator_id == session.get("user_id", "")
-        or conversation.receiver_id == session.get("user_id", "")
+        conversation.creator_id == session.get("user_id", default="")
+        or conversation.receiver_id == session.get("user_id", default="")
         or conversation.invite_code == request.args.get("invite_code", default="")
     ):
         # The creator has access to the invite code
@@ -81,6 +81,29 @@ def get_conversation(id: str):
             serialize(
                 conversation, ["id", "invite_code", "creator_id", "receiver_id", "creation_date", "last_update_date"]
             )
+        )
+
+    # The user is not allowed to see the conversation.
+    # A NotFound is returned to avoid leaking conversation ids.
+    raise NotFound
+
+
+@ConversationBp.route("/<uuid:id>/public_keys")
+@authguard
+def get_conversation_public_keys(id: str):
+    try:
+        conversation: Conversation = db.session.execute(select(Conversation).filter_by(id=id)).scalar_one()
+    except NoResultFound:
+        raise NotFound
+
+    if not conversation.receiver_id:
+        raise BadRequest("The conversation is not initialized")
+
+    if conversation.creator_id == g.current_user.id or conversation.receiver_id == g.current_user.id:
+        # The creator has access to the invite code
+        return jsonify(
+            creator_public_key=conversation.creator.public_key,
+            receiver_public_key=conversation.receiver.public_key,
         )
 
     # The user is not allowed to see the conversation.
@@ -120,7 +143,7 @@ def join_conversation(id: str):
     conversation.receiver_id = g.current_user.id
     db.session.commit()
 
-    return serialize(conversation, ["id", "creator_id", "receiver_id", "creation_date", "last_update_date"])
+    return jsonify(serialize(conversation, ["id", "creator_id", "receiver_id", "creation_date", "last_update_date"]))
 
 
 guest_join_schema = {
@@ -165,4 +188,4 @@ def guest_join_conversation(id: str):
 
     login_user(new_user)
 
-    return serialize(new_user, ["id", "creation_date"])
+    return jsonify(serialize(new_user, ["id", "creation_date"]))

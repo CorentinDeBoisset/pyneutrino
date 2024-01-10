@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List, TYPE_CHECKING
 from sqlalchemy import Uuid, ForeignKey, DateTime, String
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship, WriteOnlyMapped
 from ._base import Base
 
 if TYPE_CHECKING:
@@ -34,4 +34,7 @@ class Conversation(Base):
     creation_date: Mapped[datetime] = mapped_column(DateTime)
     last_update_date: Mapped[datetime] = mapped_column(DateTime, index=True)
 
-    sent_messages: Mapped[List["SentMessage"]] = relationship(back_populates="conversation")
+    sent_messages: WriteOnlyMapped["SentMessage"] = relationship(
+        back_populates="conversation",
+        order_by="desc(SentMessage.creation_date)",
+    )

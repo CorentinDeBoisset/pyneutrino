@@ -3,6 +3,7 @@ import errno
 import yaml
 import json
 from flask import Flask
+from flask_socketio import SocketIO
 
 from .db import db
 from .hooks import register as register_hooks
@@ -10,6 +11,7 @@ from .web.home import register as register_home
 from .web.error_management import register_error_handlers
 from .web.auth import register as register_auth
 from .web.messaging import register as register_messaging
+from .web.sockets import register_sockets
 
 
 def get_config():
@@ -20,19 +22,20 @@ def get_config():
         "SQLALCHEMY_DATABASE_URI": "postgresql://neutrino:neutrinopwd@127.0.0.1:5432/neutrino",
     }
 
-    config_file = os.environ.get("NEUTRINO_SETTING_FILE", "")
+    config_file = os.environ.get("NEUTRINO_SETTING_FILE", default="")
     if config_file:
         try:
             with open(config_file, mode="rb") as config_file_contents:
                 # Read as JSON or YANL
                 if config_file.endswith(".yaml") or config_file.endswith(".yml"):
-                    configuration = yaml.safe_load(config_file_contents)
-                    config.update(configuration)
+                    loaded_configuration = yaml.safe_load(config_file_contents)
                 elif config_file.endswith(".json"):
-                    configuration = json.load(config_file_contents)
-                    config.update(configuration)
+                    loaded_configuration = json.load(config_file_contents)
                 else:
                     raise Exception("Unsuppported configuration file (only .json, .yml or .yaml are supported)")
+
+                if isinstance(loaded_configuration, dict):
+                    config.update(loaded_configuration)
         except OSError as e:
             if e.errno in (errno.ENOENT, errno.EISDIR, errno.ENOTDIR):
                 return False
@@ -72,4 +75,7 @@ def create_app(test_config=None):
     register_auth(app)
     register_messaging(app)
 
-    return app
+    socketio = SocketIO(app)
+    register_sockets(socketio)
+
+    return socketio

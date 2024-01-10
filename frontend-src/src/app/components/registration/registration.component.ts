@@ -14,13 +14,18 @@ import { IdentityStore } from '../../stores/indentityStore';
   styleUrl: './registration.component.scss'
 })
 export class RegistrationComponent {
-  email = new FormControl('');
-  username = new FormControl('');
-  password = new FormControl('');
-  registrationError = "";
+  email: FormControl;
+  username: FormControl
+  password: FormControl
+  registrationError: string|null;
   registrationSuccess = false;
 
-  constructor(private httpClient: HttpClient, private identityStore: IdentityStore) { }
+  constructor(private httpClient: HttpClient, private identityStore: IdentityStore) {
+    this.email = new FormControl("")
+    this.username = new FormControl("")
+    this.password = new FormControl("")
+    this.registrationError = null
+  }
 
   async submitRegistration(e: SubmitEvent) {
     e.preventDefault()
@@ -48,8 +53,8 @@ export class RegistrationComponent {
       email: this.email.value,
       password: this.password.value,
       username: this.username.value,
-      public_key: keyPair.publicKey,
-      private_key: keyPair.privateKey,
+      public_key: keyPair.publicKey.armor(),
+      private_key: keyPair.privateKey.armor(),
     };
 
     const req = this.httpClient
@@ -57,7 +62,7 @@ export class RegistrationComponent {
       .pipe(catchError(err => this.handleRegistrationError(err)));
 
     req.subscribe(() => {
-      this.registrationError = "";
+      this.registrationError = null;
       this.registrationSuccess = true
     });
   }

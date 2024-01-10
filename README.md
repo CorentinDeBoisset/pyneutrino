@@ -27,7 +27,7 @@ You can initialize and start the backend with:
 ```bash
 poetry install
 poetry run alembic upgrade head
-poetry run gunicorn 'pyneutrino:create_app()' --reload
+poetry run uwsgi ./uwsgi_dev.ini
 ```
 
 If you want to override the configuration of the backend environment, you can follow these steps:
@@ -35,7 +35,7 @@ If you want to override the configuration of the backend environment, you can fo
 ```bash
 touch local_config.yaml
 # Set values in dev_config.cfg
-poetry run gunicorn 'pyneutrino:create_app()' --reload --env "NEUTRINO_SETTING_FILE=$(pwd)/local_config.yaml"
+poetry run uwsgi ./uwsgi_dev.ini --env "NEUTRINO_SETTING_FILE=$(pwd)/local_config.yaml"
 ```
 
 Once started, you can set up and start the frontend web server:

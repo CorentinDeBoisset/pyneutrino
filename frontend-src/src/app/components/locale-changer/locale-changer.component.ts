@@ -9,10 +9,10 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './locale-changer.component.scss'
 })
 export class LocaleChangerComponent implements OnInit {
-  selectedLocale = new FormControl();
+  selectedLocale: FormControl
 
   constructor(@Inject(LOCALE_ID) protected localeId: string) {
-    this.selectedLocale.setValue(localeId);
+    this.selectedLocale = new FormControl(localeId);
   }
 
   ngOnInit() {

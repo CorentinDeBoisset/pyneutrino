@@ -15,11 +15,15 @@ import { CommonModule } from '@angular/common';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  email = new FormControl('');
-  password = new FormControl('');
-  loginError = ""
+  email: FormControl;
+  password: FormControl;
+  loginError: string|null
 
-  constructor(private httpClient: HttpClient, private router: Router, private identityStore: IdentityStore) { }
+  constructor(private httpClient: HttpClient, private router: Router, private identityStore: IdentityStore) {
+    this.email = new FormControl("")
+    this.password = new FormControl("")
+    this.loginError = null
+  }
 
   submitLogin(e: SubmitEvent) {
     e.preventDefault();
@@ -30,7 +34,7 @@ export class LoginComponent {
     ).pipe(catchError(err => this.handleLoginError(err)));
 
     req.subscribe(data => {
-      this.loginError = "";
+      this.loginError = null;
       this.identityStore.initUserSession(this.password.value || "", data)
         .then(() => {
           this.router.navigate(["/"])

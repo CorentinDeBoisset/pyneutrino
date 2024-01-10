@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { generateKey, readPrivateKey, readKey, decryptKey, KeyPair, SerializedKeyPair } from "openpgp";
-import { LoginResponse, UserEntity } from "./types";
+import { generateKey, readPrivateKey, readKey, decryptKey, KeyPair, PublicKey, encrypt, decrypt, createMessage, readMessage } from "openpgp";
+import { LoginResponse, UserEntity, SentMessage } from "./types";
 
 @Injectable({ providedIn: 'root' })
 export class IdentityStore {
@@ -31,15 +31,15 @@ export class IdentityStore {
       id: data.id,
       email: data.email,
       username: data.username,
-      publicKey: publicKey.armor(),
-      privateKey: privateKey.armor(),
+      publicKey: publicKey,
+      privateKey: privateKey,
     });
   }
 
-  initGuestSession(userId: string, keyPair: SerializedKeyPair<string>) {
+  initGuestSession(userId: string, keyPair: KeyPair) {
     window.localStorage.setItem("guest_user_id", userId);
-    window.localStorage.setItem("guest_public_key", JSON.stringify(keyPair.publicKey))
-    window.localStorage.setItem("guest_private_key", JSON.stringify(keyPair.privateKey))
+    window.localStorage.setItem("guest_public_key", JSON.stringify(keyPair.publicKey.armor()))
+    window.localStorage.setItem("guest_private_key", JSON.stringify(keyPair.privateKey.armor()))
     this.userSubject.next({
       id: userId,
       email: "",
@@ -49,7 +49,7 @@ export class IdentityStore {
     })
   }
 
-  restoreUserSession() {
+  async restoreUserSession() {
     // this property is defined in the html by the server, since we cannot list httpOnly cookies from the JS
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!(<any>window).hasSession) {
@@ -80,21 +80,21 @@ export class IdentityStore {
         id: userId,
         email: "",
         username: "",
-        publicKey: pubKey,
-        privateKey: privKey,
+        publicKey: await readKey({ armoredKey: pubKey }),
+        privateKey: await readPrivateKey({ armoredKey: privKey }),
       })
 
       return
     }
 
-    // TODO: check the key pair
+    // TODO: check the validity of the key pair
 
     this.userSubject.next({
       id: userId,
       email: userEmail,
       username: username,
-      publicKey: pubKey,
-      privateKey: privKey,
+      publicKey: await readKey({ armoredKey: pubKey }),
+      privateKey: await readPrivateKey({ armoredKey: privKey }),
     })
   }
 
@@ -111,6 +111,46 @@ export class IdentityStore {
     this.userSubject.next(null);
   }
 
+  async encryptMessage(msg: string, contactKey: PublicKey): Promise<string> {
+    const currentUser = this.getCurrentUser()
+    if (!currentUser) {
+      throw 'A user must be authenticated to encrypt messages'
+    }
+
+    const encrypted = await encrypt({
+      message: await createMessage({ text: msg }),
+      encryptionKeys: [currentUser.publicKey, contactKey],
+      signingKeys: [currentUser.privateKey],
+    })
+    return encrypted.toString()
+  }
+
+  async decryptMessages(msgList: SentMessage[], contactKey: PublicKey): Promise<SentMessage[]> {
+    const currentUser = this.getCurrentUser()
+    if (!currentUser) {
+      throw 'A user must be authenticated to decrypt messages'
+    }
+
+    const decryptionResults = await Promise.allSettled(
+      msgList.map(async m => decrypt({
+        message: await readMessage({ armoredMessage: m.message }),
+        decryptionKeys: [currentUser.privateKey],
+        verificationKeys: [contactKey],
+      }))
+    )
+
+    for (const i of decryptionResults.keys()) {
+      const res = decryptionResults[i]
+      if (res.status === 'fulfilled') {
+        msgList[i].message = res.value.data.toString()
+      } else {
+        msgList[i].message = "<INVALID MESSAGE>"
+        console.warn(`There was an error decrypting a message: ${res.reason}`)
+      }
+    }
+    return msgList
+  }
+
   async generatePgpKeyPair(email: string, username: string, passphrase: string) {
     const keyPair = await generateKey({
       type: "ecc",
@@ -118,7 +158,7 @@ export class IdentityStore {
       keyExpirationTime: 3600 * 24 * 30 + 3600, // Default duration of a server session, plus a buffer to be safe
       userIDs: [{ name: username, email: email }],
       passphrase,
-      format: "armored",
+      format: "object",
     });
 
     return keyPair;
