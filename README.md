@@ -1,7 +1,7 @@
 # PyNeutrino
 
 <p align="center">
-    <img src="https://github.com/corentindeboisset/neutrino/raw/main/frontend-src/src/assets/logo_large.svg" alt="Logo of the neutrino application" style="width: 8rem" />
+    <img src="https://github.com/corentindeboisset/pyneutrino/raw/main/frontend-src/src/img/logo_large.svg" alt="Logo of the neutrino application" style="width: 8rem" />
 </p>
 
 📮 Send your secrets securely to third-parties, using client-to-client encryption.
