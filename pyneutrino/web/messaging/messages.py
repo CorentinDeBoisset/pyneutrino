@@ -1,6 +1,7 @@
 import json
 from uuid import uuid4
 from datetime import datetime
+from typing import Generator
 from flask import Blueprint, g, request, jsonify, Response
 from werkzeug.exceptions import BadRequest, NotFound
 from sqlalchemy import select
@@ -96,7 +97,7 @@ def get_message_stream():
     # Clean up the db session
     db.session.close()
 
-    def message_stream() -> str:
+    def message_stream() -> Generator[str]:
         pub = redis.connexion.pubsub()
         pub.subscribe(str(conversation.id))
 
