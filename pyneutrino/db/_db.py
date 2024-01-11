@@ -1,6 +1,5 @@
 from flask import Flask
 from flask.globals import app_ctx
-from redis import Redis
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
@@ -26,16 +25,4 @@ class SQLAlchemy:
         app.teardown_appcontext(self.shutdown_session)
 
 
-class RedisEngine:
-    def __init__(self):
-        self.connexion = None
-
-    def init_app(self, app: Flask):
-        host = app.config["REDIS_HOST"]
-        port = app.config["REDIS_PORT"]
-        db = app.config.get("REDIS_DB", 0)
-        self.connexion = Redis(host=host, port=port, db=db)
-
-
 db = SQLAlchemy()
-redis = RedisEngine()

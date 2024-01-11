@@ -18,8 +18,7 @@ def get_config():
         "SECRET_KEY": "secret-key",
         "CSRF_TOKEN_SALT": "csrf-salt",
         "SQLALCHEMY_DATABASE_URI": "postgresql://neutrino:neutrinopwd@127.0.0.1:5432/neutrino",
-        "REDIS_HOST": "localhost",
-        "REDIS_PORT": "6379",
+        "REDIS_URI": "redis://localhost:6379",
     }
 
     config_file = os.environ.get("NEUTRINO_SETTING_FILE", default="")
