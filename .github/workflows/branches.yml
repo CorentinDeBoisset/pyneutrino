@@ -1,4 +1,4 @@
-name: Run the tests and tag releases
+name: Branch CI
 
 concurrency:
   group: '${{ github.workflow }} @ ${{ github.ref }}'

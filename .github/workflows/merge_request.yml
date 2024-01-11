@@ -1,4 +1,4 @@
-name: Run the tests
+name: Merge request CI
 
 concurrency:
   group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref }}'
