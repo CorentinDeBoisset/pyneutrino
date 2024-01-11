@@ -55,8 +55,8 @@ Important caveats:
 
 To run the tests, you can execute the following commands:
 
-```
-poetry run tox
+```bash
+poetry run tox run
 ```
 
 ## ❯ Notice

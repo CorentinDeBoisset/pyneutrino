@@ -1,0 +1,12 @@
+name: Run the tests
+
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref }}'
+  cancel-in-progress: true
+
+on:
+  pull_request:
+
+jobs:
+  tests:
+    uses: ./.github/workflows/_tests.yml
