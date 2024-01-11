@@ -20,12 +20,13 @@ export class ConversationPageComponent implements OnInit, OnDestroy {
   conversationFetchError!: string|null
   conversationSub!: Unsubscribable
   refreshConv!: BehaviorSubject<void>
+  convNotifSource!: EventSource|null
 
   constructor(
     private httpClient: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
-    private identityStore: IdentityStore
+    private identityStore: IdentityStore,
   ) {
     this.refreshConv = new BehaviorSubject<void>(undefined)
   }
@@ -57,21 +58,28 @@ export class ConversationPageComponent implements OnInit, OnDestroy {
     )
 
     this.conversationSub = this.conversation$.pipe(
-      tap((conv) => {
-        const user = this.identityStore.getCurrentUser();
-        if (
-          conv !== null &&
-          user !== null &&
-          user.id !== conv.creator_id
-        ) {
-          if (conv.receiver_id !== null) {
-            if (conv.receiver_id !== user.id) {
-              // The user propably used a valid invite code, but it's already been used
-              this.conversationFetchError = $localize`:conversation-already-joined:This conversation has already be joined by another user`
-            }
-            return
+      tap(async (conv) => {
+        const user = await this.identityStore.getCurrentUser();
+        // Nothing to do if there is no conversation,
+        // or no logged-in user
+        if (!user || !conv) {
+          return
+        }
+
+        // Fisrt case: We are the creator, and are waiting for the conv to start
+        if (user.id === conv.creator_id && conv.receiver_id === null) {
+          if (this.convNotifSource) {
+            this.convNotifSource.close()
           }
 
+          // Start a stream request to get notified when another user joins
+          this.convNotifSource = new EventSource(`/api/messaging/messages/message-stream?conversation_id=${conv.id}`)
+          this.convNotifSource.addEventListener("message", e => this.handleConvNotif(e))
+          return
+        }
+
+        // Second case: We are an authenticated user, joining into the conversation
+        if (user.id !== conv.creator_id && conv.receiver_id === null) {
           const inviteCode = this.route.snapshot.queryParamMap.get('invite_code');
 
           // The current user is not the creator, and the receiver has not yet been set
@@ -84,6 +92,13 @@ export class ConversationPageComponent implements OnInit, OnDestroy {
                 .navigate(["/conversation", conv.id], { queryParams: {} })
                 .then(() => this.refreshConv.next()) // Force a refresh of the conversation
             })
+        }
+
+        // Third case, the conversation is already initialized (but without us...)
+        if (user.id !== conv.creator_id && conv.receiver_id !== null && conv.receiver_id !== user.id) {
+          // The user propably used a valid invite code, but it's already been used
+          this.conversationFetchError = $localize`:conversation-already-joined:This conversation has already be joined by another user`
+          return
         }
       })
     ).subscribe()
@@ -115,6 +130,22 @@ export class ConversationPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.conversationSub.unsubscribe()
+    if (this.convNotifSource) {
+      this.convNotifSource.close()
+    }
+  }
+
+  handleConvNotif(e: MessageEvent) {
+    const parsedData = JSON.parse(e.data)
+    if (!("type" in parsedData) || parsedData.type !== "conv-started") {
+      return
+    }
+
+    // We force a refresh of the conversation
+    this.refreshConv.next()
+
+    // Stop listening to the notifications
+    this.convNotifSource?.close()
   }
 
   handleGetConversationError(err: HttpErrorResponse) {

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { Conversation, SentMessage } from '../../stores/types';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -14,13 +14,14 @@ import { PublicKey, readKey } from 'openpgp';
   templateUrl: './conversation-content.component.html',
   styleUrl: './conversation-content.component.scss'
 })
-export class ConversationContentComponent {
+export class ConversationContentComponent implements OnDestroy {
   private _conversation!: Conversation
   messages: SentMessage[]
   newMessage: FormControl
   contactPublicKey: PublicKey|null
   loadError: string|null
   sendMessageError: string|null
+  newMessageSource: EventSource|null
 
   constructor(private httpClient: HttpClient, private identityStore: IdentityStore) {
     this.messages = [];
@@ -28,23 +29,35 @@ export class ConversationContentComponent {
     this.contactPublicKey = null
     this.loadError = null
     this.sendMessageError = null
+    this.newMessageSource = null
+  }
+
+  ngOnDestroy(): void {
+    if (this.newMessageSource) {
+      this.newMessageSource.close();
+    }
   }
 
   @Input()
   get conversation(): Conversation { return this._conversation}
   set conversation(conv: Conversation) {
     this._conversation = conv
-    this.loadPublicKeys()
+    if (this.newMessageSource) {
+      this.newMessageSource.close()
+    }
+    this.loadConversation()
   }
 
-  loadPublicKeys() {
+  loadConversation() {
+    // We start by fetching the public keys of the conversations
     const req = this.httpClient.get<{ creator_public_key: string, receiver_public_key: string}>(
       `/api/messaging/conversations/${this._conversation.id}/public_keys`,
     )
     .pipe(catchError(() => this.handleGetPublicKeysError()))
 
     req.subscribe(async (data) => {
-      if (this._conversation.creator_id === this.identityStore.getCurrentUser()?.id) {
+      const user = await this.identityStore.getCurrentUser()
+      if (this._conversation.creator_id === user?.id) {
         this.contactPublicKey = await readKey({ armoredKey: data.receiver_public_key })
       } else {
         this.contactPublicKey = await readKey({ armoredKey: data.creator_public_key })
@@ -56,7 +69,7 @@ export class ConversationContentComponent {
   }
 
   loadMessages() {
-    // Then we, load the existing mesages
+    // Then we load the existing mesages
     const req = this.httpClient.get<SentMessage[]>(
       "/api/messaging/messages",
       { params: new HttpParams().set('conversation_id', this._conversation.id) },
@@ -69,9 +82,33 @@ export class ConversationContentComponent {
         return
       }
 
-      // We reverse the list of message (to have the earliest message last)
+      // We reverse the list of messages to have the earliest message last
       this.messages = await this.identityStore.decryptMessages(data.reverse(), contactPubKey)
+
+      // Start a stream request to get new messages without making a request
+      this.newMessageSource = new EventSource(`/api/messaging/messages/message-stream?conversation_id=${this._conversation.id}`)
+      this.newMessageSource.addEventListener("message", (e) => this.handleNewMessageEvent(e))
     })
+  }
+
+  async handleNewMessageEvent(e: MessageEvent<string>) {
+    const contactPubKey = this.contactPublicKey
+    if (!contactPubKey) {
+      return
+    }
+
+    const parsedData = JSON.parse(e.data)
+    if (!("type" in parsedData) || parsedData.type !== "conv-message") {
+      return
+    }
+    const newMessage: SentMessage = parsedData.data
+
+    const user = await this.identityStore.getCurrentUser()
+    if (newMessage.sender === user?.id) {
+      return
+    }
+    const decryptedMessages = await this.identityStore.decryptMessages([newMessage], contactPubKey)
+    this.messages.push(...decryptedMessages)
   }
 
   async handleSendMessage(e: SubmitEvent) {

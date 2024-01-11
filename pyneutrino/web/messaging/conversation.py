@@ -1,12 +1,13 @@
-from flask import Blueprint, jsonify, g, request, session
-from uuid import uuid4
-from datetime import datetime
+import json
 import secrets
+from datetime import datetime
+from uuid import uuid4
+from flask import Blueprint, jsonify, g, request, session
 from werkzeug.exceptions import BadRequest, NotFound, Conflict, Forbidden
 from sqlalchemy import text, select
 from sqlalchemy.exc import NoResultFound
 from pyneutrino.services import authguard, serialize, validate_schema, login_user
-from pyneutrino.db import db, Conversation, UserAccount
+from pyneutrino.db import db, Conversation, UserAccount, redis
 
 ConversationBp = Blueprint("conversation", __name__, url_prefix="/api/messaging/conversations")
 
@@ -143,6 +144,8 @@ def join_conversation(id: str):
     conversation.receiver_id = g.current_user.id
     db.session.commit()
 
+    redis.connexion.publish(str(conversation.id), json.dumps({"type": "conv-started"}))
+
     return jsonify(serialize(conversation, ["id", "creator_id", "receiver_id", "creation_date", "last_update_date"]))
 
 
@@ -187,5 +190,7 @@ def guest_join_conversation(id: str):
     db.session.commit()
 
     login_user(new_user)
+
+    redis.connexion.publish(str(conversation.id), json.dumps({"type": "conv-started"}))
 
     return jsonify(serialize(new_user, ["id", "creation_date"]))

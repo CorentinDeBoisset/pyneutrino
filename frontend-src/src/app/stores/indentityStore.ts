@@ -1,12 +1,17 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, filter, firstValueFrom, map } from "rxjs";
 import { generateKey, readPrivateKey, readKey, decryptKey, KeyPair, PublicKey, encrypt, decrypt, createMessage, readMessage } from "openpgp";
 import { LoginResponse, UserEntity, SentMessage } from "./types";
 
 @Injectable({ providedIn: 'root' })
 export class IdentityStore {
-  private userSubject = new BehaviorSubject<UserEntity|null>(null)
-  user$ = this.userSubject.asObservable()
+  private userSubject = new BehaviorSubject<UserEntity|null|undefined>(undefined)
+
+  // We filter out the undefined values
+  user$ = this.userSubject.asObservable().pipe(
+    filter(u => u !== undefined),
+    map(u => u as UserEntity|null)
+  )
 
   async initUserSession(passphrase: string, data: LoginResponse) {
     const publicKey = await readKey({ armoredKey: data.public_key });
@@ -98,12 +103,22 @@ export class IdentityStore {
     })
   }
 
-  getCurrentUser(): UserEntity|null {
-    return this.userSubject.getValue();
+  async getCurrentUser(): Promise<UserEntity|null> {
+    if (this.userSubject.value === undefined) {
+      // If undefined, we wait for the user to be initialized
+      return await firstValueFrom(this.user$)
+    }
+
+    return this.userSubject.getValue() || null
   }
 
-  isAuthenticated(): boolean {
-    return (this.userSubject.value !== null)
+  async isAuthenticated(): Promise<boolean> {
+    if (this.userSubject.value === undefined) {
+      // If undefined, we wait for the user to be initialized
+      return (await firstValueFrom(this.user$)) !== null
+    }
+
+    return this.userSubject.value !== null;
   }
 
   logout() {
@@ -112,7 +127,7 @@ export class IdentityStore {
   }
 
   async encryptMessage(msg: string, contactKey: PublicKey): Promise<string> {
-    const currentUser = this.getCurrentUser()
+    const currentUser = await this.getCurrentUser()
     if (!currentUser) {
       throw 'A user must be authenticated to encrypt messages'
     }
@@ -126,7 +141,7 @@ export class IdentityStore {
   }
 
   async decryptMessages(msgList: SentMessage[], contactKey: PublicKey): Promise<SentMessage[]> {
-    const currentUser = this.getCurrentUser()
+    const currentUser = await this.getCurrentUser()
     if (!currentUser) {
       throw 'A user must be authenticated to decrypt messages'
     }

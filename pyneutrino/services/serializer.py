@@ -2,16 +2,16 @@ from sqlalchemy.engine import ScalarResult
 from typing import Sequence
 
 
-def serialize_obj(obj, attributes: list):
+def serialize_obj(obj, attributes: list[str]):
     return {attr: getattr(obj, attr) for attr in attributes}
 
 
-def serialize_list(objs: Sequence, attributes: list):
+def serialize_list(objs: Sequence, attributes: list[str]):
     # We skip None values since sqlalchemy's ScalarResult can have None (at the end of a sequence usually)
     return [serialize_obj(obj, attributes) for obj in objs if obj is not None]
 
 
-def serialize(source, attributes: list):
+def serialize(source, attributes: list[str]):
     if isinstance(source, ScalarResult):
         return serialize_list(list(source.all()), attributes)
 

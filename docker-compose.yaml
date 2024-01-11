@@ -7,10 +7,19 @@ services:
       POSTGRES_PASSWORD: rootpwd
       POSTGRES_USER: root
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/postgresql/data
       - ./dev_db_init:/docker-entrypoint-initdb.d:ro
     ports:
       - "127.0.0.1:5432:5432"
 
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis_data:/data
+
 volumes:
   db_data:
+  redis_data:

@@ -29,7 +29,7 @@ export interface Conversation {
 
 export interface SentMessage {
   id: string
-  creator: string
+  sender: string
   creation_date: Date,
   message: string
 }

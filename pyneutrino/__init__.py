@@ -4,7 +4,7 @@ import yaml
 import json
 from flask import Flask
 
-from .db import db
+from .db import db, redis
 from .hooks import register as register_hooks
 from .web.home import register as register_home
 from .web.error_management import register_error_handlers
@@ -18,6 +18,8 @@ def get_config():
         "SECRET_KEY": "secret-key",
         "CSRF_TOKEN_SALT": "csrf-salt",
         "SQLALCHEMY_DATABASE_URI": "postgresql://neutrino:neutrinopwd@127.0.0.1:5432/neutrino",
+        "REDIS_HOST": "localhost",
+        "REDIS_PORT": "6379",
     }
 
     config_file = os.environ.get("NEUTRINO_SETTING_FILE", default="")
@@ -57,6 +59,7 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
 
     db.init_app(app)
+    redis.init_app(app)
 
     # ensure the instance folder exists
     try:
