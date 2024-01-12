@@ -22,6 +22,7 @@ def get_config():
         "REDIS_URI": "redis://localhost:6379",
     }
 
+    # Load a configuration file targeted with the environment: NEUTRINO_SETTING_FILE=/path/to/settings.cfg
     config_file = os.environ.get("NEUTRINO_SETTING_FILE", default="")
     if config_file:
         try:
@@ -42,6 +43,14 @@ def get_config():
             e.strerror = f"Unable to load configuration file ({e.strerror})"
             raise
 
+    # Make any configuration overrideable by environment variables, prefixed with NEUTRINO_
+    # For example, the env variable NEUTRINO_REDIS_URL sets the configuration value REDIS_URL
+    configuration_keys = config.keys()
+    for key in configuration_keys:
+        value = os.getenv(f"NEUTRINO_{key}")
+        if value is not None:
+            config[key] = value
+
     return config
 
 
@@ -51,11 +60,7 @@ def create_app(test_config=None):
 
     app.config.from_mapping(**get_config())
 
-    if test_config is None:
-        # Load a configuration file targeted with the environment: NEUTRINO_SETTING_FILE=/path/to/settings.cfg
-        app.config.from_envvar("NEUTRINO_SETTING_FILE", silent=True)
-    else:
-        # load the test config if passed in
+    if test_config is not None:
         app.config.from_mapping(test_config)
 
     db.init_app(app)
