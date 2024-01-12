@@ -7,7 +7,7 @@ concurrency:
 on:
   push:
     tags:
-      - '[0-9]\.[0-9]\.[0-9]*'
+      - 'v[0-9]\.[0-9]\.[0-9]*'
 
 jobs:
   release:
@@ -42,5 +42,5 @@ jobs:
           context: .
           file: ./docker_build/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}

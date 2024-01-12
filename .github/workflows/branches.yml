@@ -24,8 +24,13 @@ jobs:
       contents: write # Allow the job to write tags on the repo
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false # to avoid using GITHUB_TOKEN when pushing
+
+      # It's required to avoid using the GITHUB_TOKEN, because we want an action to run on the tags that will be pushed.
+      # By default, github actions does not run on events triggered by other actions
       - name: Run semantic release
         uses: cycjimmy/semantic-release-action@v4
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_PUSH_TOKEN }}
           NPM_TOKEN: ""
