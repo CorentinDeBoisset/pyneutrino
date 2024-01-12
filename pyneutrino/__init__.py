@@ -6,6 +6,7 @@ from flask import Flask
 
 from .db import db, redis
 from .hooks import register as register_hooks
+from .commands import register as register_commands
 from .web.home import register as register_home
 from .web.error_management import register_error_handlers
 from .web.auth import register as register_auth
@@ -69,6 +70,7 @@ def create_app(test_config=None):
     # First, register hooks and error handlers
     register_error_handlers(app)
     register_hooks(app)
+    register_commands(app)
 
     # Register blueprints
     register_home(app)
