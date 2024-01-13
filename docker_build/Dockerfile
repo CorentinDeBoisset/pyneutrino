@@ -53,7 +53,7 @@ RUN cd /neutrino && \
 ##
 # Final image
 ##
-FROM python:3.12-alpine
+FROM python:3.12-alpine as main
 
 # TODO: add a user
 
@@ -64,7 +64,7 @@ COPY --from=backend-builder /neutrino /neutrino
 
 # Frontend assets, making a special case for the home.html template
 COPY --from=frontend-builder /neutrino/dist/browser/home.html /neutrino/pyneutrino/templates/
-COPY --from=frontend-builder /neutrino/dist/browser/* /neutrino/pyneutrino/static
+COPY --from=frontend-builder /neutrino/dist/browser /neutrino/pyneutrino/static/
 
 # Copy entrypoint and configuration
 COPY --chmod=0755 docker_build/entrypoint.sh /entrypoint.sh

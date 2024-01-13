@@ -43,6 +43,7 @@ jobs:
         with:
           context: .
           file: ./docker_build/Dockerfile
+          target: main
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
