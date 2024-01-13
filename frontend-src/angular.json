@@ -29,7 +29,7 @@
             "outputPath": "dist",
             "browser": "src/main.ts",
             "assets": [
-              "src/img"
+              { "glob": "**/*", "input": "src/img", "output": "img/" }
             ],
             "polyfills": [
               "zone.js"
@@ -48,9 +48,6 @@
                 "input": "src/index_prod.html",
                 "output": "home.html"
               },
-              "assets": [
-                "src/img"
-              ],
               "budgets": [
                 {
                   "type": "initial",
