@@ -17,7 +17,7 @@ def get_config():
     config = {
         "SESSION_COOKIE_SAMESITE": "Strict",
         "SECRET_KEY": "secret-key",
-        "CSRF_TOKEN_SALT": "csrf-salt",
+        "XSRF_TOKEN_SALT": "xsrf-salt",
         "SQLALCHEMY_DATABASE_URI": "postgresql://neutrino:neutrinopwd@127.0.0.1:5432/neutrino",
         "REDIS_URI": "redis://localhost:6379",
     }

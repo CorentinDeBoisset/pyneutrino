@@ -26,7 +26,7 @@ def app(alembic_runner):
         {
             "TESTING": True,
             "SQLALCHEMY_DATABASE_URI": SQLALCHEMY_DATABASE_URI,
-            "DISABLE_CSRF": True,
+            "DISABLE_XSRF": True,
         }
     )
 

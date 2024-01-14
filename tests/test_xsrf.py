@@ -44,4 +44,4 @@ def test_invalid_xsrf(alembic_runner):
     # Test a post request without the token
     res = client.post("/api/auth/session/logout")
     assert res.status_code == 401
-    assert res.json["description"] == "A CSRF token must be sent in the X-XSRF-TOKEN header"
+    assert res.json["description"] == "A XSRF token must be sent in the X-XSRF-TOKEN header"
