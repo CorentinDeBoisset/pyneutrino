@@ -11,6 +11,10 @@ def test_new_conversation(app: Flask):
     assert res.status_code == 201
     assert res.json["id"] is not None
 
+    unlogged_client = app.test_client()
+    res = unlogged_client.post("/api/messaging/conversations/new")
+    assert res.status_code == 401
+
 
 def test_get_conversations(app: Flask):
     create_basic_user(app)
@@ -75,6 +79,7 @@ def test_guest_join_conversation(app: Flask):
 def test_join_conversation(app: Flask):
     create_basic_user(app, email="creator@neutri.no", username="creator_username")
     create_basic_user(app, email="receiver@neutri.no", username="receiver_username")
+    create_basic_user(app, email="snooper@neutri.no", username="snooper_username")
 
     creator_client = app.test_client()
     res = creator_client.post("/api/auth/session/login", json={"email": "creator@neutri.no", "password": "123secret"})
@@ -122,7 +127,6 @@ def test_join_conversation(app: Flask):
     assert res.json["receiver_public_key"] == "PGP_PUBLIC_KEY of receiver_username"
 
     # Check another user cannot access anything
-    create_basic_user(app, email="snooper@neutri.no", username="snooper_username")
     snooper_client = app.test_client()
     snooper_client.post("/api/auth/session/login", json={"email": "snooper@neutri.no", "password": "123secret"})
 

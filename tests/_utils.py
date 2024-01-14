@@ -1,6 +1,7 @@
 from flask import Flask
 
 SQLALCHEMY_DATABASE_URI = "postgresql://pytest:pytestpwd@127.0.0.1:5432/pytest"
+REDIS_URI = "redis://localhost:6379/1"
 
 
 def create_basic_user(app: Flask, email="supertest@gmail.com", username="super_username", password="123secret"):

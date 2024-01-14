@@ -56,6 +56,11 @@ def new_message_route():
     except NoResultFound:
         raise NotFound
 
+    # The user is not allowed to see the conversation.
+    # A NotFound is returned to avoid leaking conversation ids.
+    if conversation.creator_id != g.current_user.id and conversation.receiver_id != g.current_user.id:
+        raise NotFound
+
     new_message = SentMessage(
         id=uuid4(),
         conversation_id=conversation.id,

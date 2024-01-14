@@ -1,6 +1,6 @@
 import re
 from pyneutrino import create_app
-from ._utils import create_basic_user, SQLALCHEMY_DATABASE_URI
+from ._utils import create_basic_user, SQLALCHEMY_DATABASE_URI, REDIS_URI
 
 
 def test_valid_xsrf(alembic_runner):
@@ -10,6 +10,7 @@ def test_valid_xsrf(alembic_runner):
         {
             "TESTING": True,
             "SQLALCHEMY_DATABASE_URI": SQLALCHEMY_DATABASE_URI,
+            "REDIS_URI": REDIS_URI,
         }
     )
     create_basic_user(app)
@@ -33,6 +34,7 @@ def test_absent_xsrf(alembic_runner):
         {
             "TESTING": True,
             "SQLALCHEMY_DATABASE_URI": SQLALCHEMY_DATABASE_URI,
+            "REDIS_URI": REDIS_URI,
         }
     )
     create_basic_user(app)
@@ -54,6 +56,7 @@ def test_invalid_xsrf(alembic_runner):
         {
             "TESTING": True,
             "SQLALCHEMY_DATABASE_URI": SQLALCHEMY_DATABASE_URI,
+            "REDIS_URI": REDIS_URI,
         }
     )
     create_basic_user(app)

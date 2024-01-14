@@ -1,7 +1,7 @@
 import pytest
 from pyneutrino import create_app
 from sqlalchemy import create_engine, text
-from ._utils import SQLALCHEMY_DATABASE_URI
+from ._utils import SQLALCHEMY_DATABASE_URI, REDIS_URI
 
 
 @pytest.fixture
@@ -27,6 +27,7 @@ def app(alembic_runner):
             "TESTING": True,
             "SQLALCHEMY_DATABASE_URI": SQLALCHEMY_DATABASE_URI,
             "DISABLE_XSRF": True,
+            "REDIS_URI": REDIS_URI,
         }
     )
 

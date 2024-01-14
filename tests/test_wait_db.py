@@ -1,5 +1,6 @@
 from flask import Flask
 from pyneutrino import create_app
+from ._utils import REDIS_URI
 
 
 def test_wait_db_command_success(app: Flask):
@@ -13,6 +14,7 @@ def test_wait_db_command_failure():
         {
             "TESTING": True,
             "SQLALCHEMY_DATABASE_URI": "postgresql://127.0.0.2:5432/nope?connect_timeout=1",
+            "REDIS_URI": REDIS_URI,
         }
     )
     runner = app.test_cli_runner()
