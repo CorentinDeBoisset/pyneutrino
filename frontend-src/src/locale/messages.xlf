@@ -174,7 +174,7 @@
         <note priority="1" from="meaning">locale-selector-label</note>
       </trans-unit>
       <trans-unit id="1350945601627058416" datatype="html">
-        <source> You must log in or register to continue </source>
+        <source> Please log in or register to continue </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/login-page/login-page.component.html</context>
           <context context-type="linenumber">3,6</context>

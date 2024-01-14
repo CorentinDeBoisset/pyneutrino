@@ -14,8 +14,7 @@ RUN cd /neutrino && \
 # Build the frontend assets
 COPY frontend-src /neutrino
 RUN cd /neutrino && \
-    npm run build && \
-    npm run build-fr -- --delete-output-path=false
+    npm run build
 
 
 ##
@@ -66,7 +65,7 @@ RUN mkdir /neutrino
 COPY --from=backend-builder /neutrino /neutrino
 
 # Frontend assets, making a special case for the home.html template
-COPY --from=frontend-builder /neutrino/dist/browser/home.html /neutrino/pyneutrino/templates/home.html
+COPY --from=frontend-builder /neutrino/dist/browser/en-US/home.html /neutrino/pyneutrino/templates/home_en-US.html
 COPY --from=frontend-builder /neutrino/dist/browser/fr-FR/home.html /neutrino/pyneutrino/templates/home_fr-FR.html
 COPY --from=frontend-builder /neutrino/dist/browser /neutrino/pyneutrino/static/
 

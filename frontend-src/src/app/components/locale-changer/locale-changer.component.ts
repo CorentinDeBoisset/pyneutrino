@@ -18,11 +18,7 @@ export class LocaleChangerComponent implements OnInit {
 
   ngOnInit() {
     this.selectedLocale.valueChanges.subscribe((newValue) => {
-      let prefix = ''
-      if (newValue !== 'en-US') {
-        prefix = `/${newValue}`
-      }
-      window.location.href = `${prefix}${this.router.url}`
+      window.location.href = `/${newValue}${this.router.url}`
     })
   }
 }

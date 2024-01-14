@@ -16,12 +16,7 @@ export const appConfig: ApplicationConfig = {
     { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true },
     {
       provide: APP_BASE_HREF,
-      useFactory: (locale: string) => {
-        if (isDevMode()) {
-          return '/'
-        }
-        return `/${locale === 'en-US' ? '' : locale}`
-      },
+      useFactory: (locale: string) => isDevMode() ? '/' : `/${locale}`,
       deps: [LOCALE_ID],
     },
   ]

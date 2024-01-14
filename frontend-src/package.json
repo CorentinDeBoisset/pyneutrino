@@ -5,8 +5,7 @@
     "ng": "ng",
     "serve": "ng serve",
     "serve-fr": "ng serve --configuration=dev-fr",
-    "build": "ng build",
-    "build-fr": "ng build --configuration=production,locale-fr",
+    "build": "ng build --localize",
     "test-watch": "ng test",
     "test": "ng test --watch=false --browser",
     "lint": "ng lint"

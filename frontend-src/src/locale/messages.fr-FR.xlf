@@ -194,8 +194,8 @@
         <note priority="1" from="meaning">locale-selector-label</note>
       </trans-unit>
       <trans-unit id="1350945601627058416" datatype="html">
-        <source> You must log in or register to continue </source>
-        <target> Vous devez vous authentifier pour continuer </target>
+        <source> Please log in or register to continue </source>
+        <target> Veuillez vous authentifier pour continuer </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/login-page/login-page.component.html</context>
           <context context-type="linenumber">3,6</context>
