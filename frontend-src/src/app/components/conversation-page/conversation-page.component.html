@@ -1,4 +1,5 @@
 <div>
+    <a routerLink="/">&larr; Homepage</a>
     <div *ngIf="conversation$ | async as conv">
         <div *ngIf="currentUser$ | async as user; else accessForm">
             <div *ngIf="user.id === conv.creator_id && conv.receiver_id === null">

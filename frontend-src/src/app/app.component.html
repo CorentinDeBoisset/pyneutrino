@@ -1,6 +1,6 @@
 <div class="fullheight neutrino-page flex-column align-center justify-between">
   <div class="neutrino-page__upper-body flex-row">
-    <div class="col-6 mx-auto">
+    <div class="col-11 col-md-8 col-lg-6 mx-auto">
       <header class="neutrino-header flex-column align-center">
         <a [routerLink]="isAuthenticated ? '/' : '/login'">
           <img
@@ -22,9 +22,9 @@
     </div>
   </div>
   <footer class="neutrino-footer flex-row justify-end align-center">
-    <form *ngIf="isAuthenticated" class="neutrino-footer__item col-auto" (submit)="submitLogout($event)">
-      <button type="submit" class="btn-link" i18n="logout|Button to trigger a logout">Logout</button>
+    <form *ngIf="isAuthenticated" class="neutrino-footer__item col-6 col-sm-auto" (submit)="submitLogout($event)">
+      <button type="submit" class="btn btn-link" i18n="logout|Button to trigger a logout">Logout</button>
     </form>
-    <app-locale-changer class="col-auto neutrino-footer__item"></app-locale-changer>
+    <app-locale-changer class="col-6 col-sm-auto neutrino-footer__item"></app-locale-changer>
   </footer>
 </div>

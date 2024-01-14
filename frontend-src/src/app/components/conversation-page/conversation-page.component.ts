@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { tap, switchMap, catchError, Observable, EMPTY, of, Unsubscribable, share, BehaviorSubject, combineLatest } from 'rxjs';
 import { Conversation, LoginResponse, UserEntity } from '../../stores/types';
 import { CommonModule } from '@angular/common';
@@ -10,7 +10,7 @@ import { ConversationContentComponent } from '../conversation-content/conversati
 @Component({
   selector: 'app-conversation-page',
   standalone: true,
-  imports: [CommonModule, ConversationContentComponent],
+  imports: [CommonModule, ConversationContentComponent, RouterLink],
   templateUrl: './conversation-page.component.html',
   styleUrl: './conversation-page.component.scss'
 })
