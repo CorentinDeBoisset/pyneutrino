@@ -1,13 +1,12 @@
 import pytest
 from pyneutrino import create_app
 from sqlalchemy import create_engine, text
-
-SQLALCHEMY_DATABASE_URL = "postgresql://pytest:pytestpwd@127.0.0.1:5432/pytest"
+from ._utils import SQLALCHEMY_DATABASE_URI
 
 
 @pytest.fixture
 def alembic_engine():
-    engine = create_engine(SQLALCHEMY_DATABASE_URL)
+    engine = create_engine(SQLALCHEMY_DATABASE_URI)
     yield engine
 
     # When executing the tear down,
@@ -26,7 +25,7 @@ def app(alembic_runner):
     app = create_app(
         {
             "TESTING": True,
-            "SQLALCHEMY_DATABASE_URI": SQLALCHEMY_DATABASE_URL,
+            "SQLALCHEMY_DATABASE_URI": SQLALCHEMY_DATABASE_URI,
             "DISABLE_CSRF": True,
         }
     )

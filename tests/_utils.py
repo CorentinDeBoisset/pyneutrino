@@ -1,5 +1,7 @@
 from flask import Flask
 
+SQLALCHEMY_DATABASE_URI = "postgresql://pytest:pytestpwd@127.0.0.1:5432/pytest"
+
 
 def create_basic_user(app: Flask):
     client = app.test_client()
