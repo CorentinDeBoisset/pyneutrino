@@ -18,7 +18,7 @@
         "locales": {
           "fr-FR": {
             "translation": "src/locale/messages.fr-FR.xlf",
-            "baseHref": "fr-FR"
+            "baseHref": "fr-FR/"
           }
         }
       },
@@ -69,6 +69,9 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "locale-fr": {
+              "localize": ["fr-FR"]
             }
           },
           "defaultConfiguration": "production"
@@ -79,11 +82,14 @@
             "production": {
               "buildTarget": "pyneutrino-frontend:build:production"
             },
-            "development": {
+            "dev-en": {
               "buildTarget": "pyneutrino-frontend:build:development"
+            },
+            "dev-fr": {
+              "buildTarget": "pyneutrino-frontend:build:development,locale-fr"
             }
           },
-          "defaultConfiguration": "development",
+          "defaultConfiguration": "dev-en",
           "options": {
             "proxyConfig": "proxy.conf.json"
           }

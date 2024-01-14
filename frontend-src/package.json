@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "serve": "ng serve",
+    "serve-fr": "ng serve --configuration=dev-fr",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "build-fr": "ng build --configuration=production,locale-fr",
     "test-watch": "ng test",
     "test": "ng test --watch=false --browser",
     "lint": "ng lint"

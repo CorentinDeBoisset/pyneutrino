@@ -19,5 +19,15 @@ def catch_all_route(path: str):
     return render_template("home.html", base_url=base_url)
 
 
+# This is the same, but with the fr-FR prefix for the french translation
+@HomeBp.route("/fr-FR/", defaults={"path": ""})
+@HomeBp.route("/fr-FR/<path:path>")
+def french_catch_all_route(path: str):
+    # Generate the absolute URL to this endpoint, to send to the JS
+    base_url = current_app.url_for("home.french_catch_all_route", path="", _external=True)
+
+    return render_template("home_fr-FR.html", base_url=base_url)
+
+
 def register(app: Flask):
     app.register_blueprint(HomeBp)

@@ -43,10 +43,12 @@ Once started, you can set up and start the frontend web server:
 ```bash
 cd frontend-src
 npm install
-npm start
+npm run serve
 ```
 
 The application is then available on http://localhost:4200
+
+If you want to work on the french translation, start the frontend dev server with `npm run serve-fr` instead.
 
 Important caveats:
 * This project does not use the Flask-SQLAlchemy extension. Do not go to their documentation for insights, but SQLAlchemy's instead.

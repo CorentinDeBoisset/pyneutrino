@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="1608936032584978281" datatype="html">
+        <source>NEUTRINO</source>
+        <target>NEUTRINO</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+        <note priority="1" from="description">A global header title</note>
+        <note priority="1" from="meaning">site-header</note>
+      </trans-unit>
+      <trans-unit id="508588371520212801" datatype="html">
+        <source>Share your passwords securely</source>
+        <target>Partagez vos mots de passe en toute sécurité</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">17,19</context>
+        </context-group>
+        <note priority="1" from="description">A subtitle for the global header</note>
+        <note priority="1" from="meaning">header-subtitle</note>
+      </trans-unit>
+      <trans-unit id="182203410405939099" datatype="html">
+        <source>Logout</source>
+        <target>Se déconnecter</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">26,28</context>
+        </context-group>
+        <note priority="1" from="description">Button to trigger a logout</note>
+        <note priority="1" from="meaning">logout</note>
+      </trans-unit>
+      <trans-unit id="6490688569532630280" datatype="html">
+        <source>Send</source>
+        <target>Envoyer</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/conversation-content/conversation-content.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <note priority="1" from="description">conversation-message-send</note>
+      </trans-unit>
+      <trans-unit id="5840645157633077348" datatype="html">
+        <source>The metadata of the conversation was not loaded properly</source>
+        <target>Les métadonnées de cette conversation n'ont pas pu être chargées</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/conversation-content/conversation-content.component.ts</context>
+          <context context-type="linenumber">118</context>
+        </context-group>
+        <note priority="1" from="description">conversation-missing-metadata</note>
+      </trans-unit>
+      <trans-unit id="5566996510402860043" datatype="html">
+        <source>An error occured when fetching the conversation metadata</source>
+        <target>Une erreur est survenue lors du chargement des métadonnées de la conversation</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/conversation-content/conversation-content.component.ts</context>
+          <context context-type="linenumber">141</context>
+        </context-group>
+        <note priority="1" from="description">conversation-fech-metadata-failed</note>
+      </trans-unit>
+      <trans-unit id="609284363975644620" datatype="html">
+        <source>An error occured when fetching the messages</source>
+        <target>Une erreur est survenue lors du chargement des messages</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/conversation-content/conversation-content.component.ts</context>
+          <context context-type="linenumber">146</context>
+        </context-group>
+        <note priority="1" from="description">conversation-fetch-messages-failed</note>
+      </trans-unit>
+      <trans-unit id="4033923491830080727" datatype="html">
+        <source>An error occured when sending the message</source>
+        <target>Une erreur est survenue lors de l'envoi du message</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/conversation-content/conversation-content.component.ts</context>
+          <context context-type="linenumber">151</context>
+        </context-group>
+        <note priority="1" from="description">conversation-send-message-failed</note>
+      </trans-unit>
+      <trans-unit id="1675424845692797452" datatype="html">
+        <source>Standby</source>
+        <target>En attente</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/conversation-page/conversation-page.component.html</context>
+          <context context-type="linenumber">5,6</context>
+        </context-group>
+        <note priority="1" from="description">conversation-standby</note>
+      </trans-unit>
+      <trans-unit id="5697920049957278793" datatype="html">
+        <source>Waiting for a peer to enter the conversation</source>
+        <target>En attente qu'un contact accède à la conversation</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/conversation-page/conversation-page.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+        <note priority="1" from="description">conversation-waiting-for-peeer</note>
+      </trans-unit>
+      <trans-unit id="711972565119587258" datatype="html">
+        <source>You can share this link to invite a contact to the conversation:</source>
+        <target>Vous pouvez partager ce lien pour inviter un contact dans la conversation :</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/conversation-page/conversation-page.component.html</context>
+          <context context-type="linenumber">7,8</context>
+        </context-group>
+        <note priority="1" from="description">conversation-share-label</note>
+      </trans-unit>
+      <trans-unit id="5934022882292729307" datatype="html">
+        <source>Join as a guest</source>
+        <target>Accéder en tant qu'invité</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/conversation-page/conversation-page.component.html</context>
+          <context context-type="linenumber">18,20</context>
+        </context-group>
+        <note priority="1" from="description">conversation-guest-join-action</note>
+      </trans-unit>
+      <trans-unit id="497278291538399008" datatype="html">
+        <source>This conversation has already be joined by another user</source>
+        <target>Cette conversation a déjà été rejointe par un autre utilisateur</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/conversation-page/conversation-page.component.ts</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+        <note priority="1" from="description">conversation-already-joined</note>
+      </trans-unit>
+      <trans-unit id="4314103570687325959" datatype="html">
+        <source>The requested conversation does not exist</source>
+        <target>La conversation demandée n'existe pas</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/conversation-page/conversation-page.component.ts</context>
+          <context context-type="linenumber">153</context>
+        </context-group>
+        <note priority="1" from="description">non-existent-conversation</note>
+      </trans-unit>
+      <trans-unit id="5977342065669521857" datatype="html">
+        <source>There was an error when fetching the conversation</source>
+        <target>Une erreur est survenue lors du chargement de la conversation</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/conversation-page/conversation-page.component.ts</context>
+          <context context-type="linenumber">157</context>
+        </context-group>
+        <note priority="1" from="description">get-conversation-error</note>
+      </trans-unit>
+      <trans-unit id="6876933251411630645" datatype="html">
+        <source>Welcome to neutrino</source>
+        <target>Bienvenue sur Neutrino</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/home-page/home-page.component.html</context>
+          <context context-type="linenumber">2,3</context>
+        </context-group>
+        <note priority="1" from="description">homepage-welcome</note>
+      </trans-unit>
+      <trans-unit id="8850390409742605569" datatype="html">
+        <source>Start a new conversation</source>
+        <target>Créer une nouvelle conversation</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/home-page/home-page.component.html</context>
+          <context context-type="linenumber">4,5</context>
+        </context-group>
+        <note priority="1" from="description">homepage-start-conversation</note>
+      </trans-unit>
+      <trans-unit id="8925499669974534654" datatype="html">
+        <source>Recent conversations:</source>
+        <target>Conversations récentes :</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/home-page/home-page.component.html</context>
+          <context context-type="linenumber">8,10</context>
+        </context-group>
+        <note priority="1" from="description">homepage-recent-conversations</note>
+      </trans-unit>
+      <trans-unit id="8305349123032620111" datatype="html">
+        <source>homepage-get-conversation-error:There was an error when fetching the list of conversations</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/home-page/home-page.component.ts</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4462740555821118534" datatype="html">
+        <source>There was an error when creating a new conversation</source>
+        <target>Une erreur est survenue lors de la création de la conversation</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/home-page/home-page.component.ts</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <note priority="1" from="description">create-conversation-error</note>
+      </trans-unit>
+      <trans-unit id="3258905592723316229" datatype="html">
+        <source>Language:</source>
+        <target>Langue :</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/locale-changer/locale-changer.component.html</context>
+          <context context-type="linenumber">2,4</context>
+        </context-group>
+        <note priority="1" from="description">An instruction to select a locale</note>
+        <note priority="1" from="meaning">locale-selector-label</note>
+      </trans-unit>
+      <trans-unit id="1350945601627058416" datatype="html">
+        <source> You must log in or register to continue </source>
+        <target> Vous devez vous authentifier pour continuer </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/login-page/login-page.component.html</context>
+          <context context-type="linenumber">3,6</context>
+        </context-group>
+        <note priority="1" from="description">Instruction that a user must login</note>
+        <note priority="1" from="meaning">homepage-login-instruction</note>
+      </trans-unit>
+      <trans-unit id="4768749765465246664" datatype="html">
+        <source>Email</source>
+        <target>Email</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/login/login.component.html</context>
+          <context context-type="linenumber">2,3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/registration/registration.component.html</context>
+          <context context-type="linenumber">4,5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1431416938026210429" datatype="html">
+        <source>Password</source>
+        <target>Mot de passe</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/login/login.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/registration/registration.component.html</context>
+          <context context-type="linenumber">12,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="935187492052582731" datatype="html">
+        <source>Submit</source>
+        <target>Envoyer</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/login/login.component.html</context>
+          <context context-type="linenumber">10,11</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/registration/registration.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5289684676340076531" datatype="html">
+        <source>Your account could not be loaded. Please contact an administrator</source>
+        <target>Votre compte n'est pas accessible. Veuillez contacter un administrateur</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/login/login.component.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <note priority="1" from="description">login-account-error</note>
+      </trans-unit>
+      <trans-unit id="2236503358464501047" datatype="html">
+        <source>The request failed to be sent</source>
+        <target>La requête n'a pas pu être envoyée</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/login/login.component.ts</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <note priority="1" from="description">request-network-error</note>
+      </trans-unit>
+      <trans-unit id="7858768589576583715" datatype="html">
+        <source>Invalid credentials</source>
+        <target>Identifiants invalides</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/login/login.component.ts</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+        <note priority="1" from="description">login-failed</note>
+      </trans-unit>
+      <trans-unit id="4364345616463975797" datatype="html">
+        <source>The login request is invalid</source>
+        <target>La requête de login n'est pas valide</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/login/login.component.ts</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/registration/registration.component.ts</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+        <note priority="1" from="description">login-invalid-request</note>
+      </trans-unit>
+      <trans-unit id="4753818334674175473" datatype="html">
+        <source>An error occured</source>
+        <target>Une erreur est survenue</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/login/login.component.ts</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/registration/registration.component.ts</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+        <note priority="1" from="description">server-error</note>
+      </trans-unit>
+      <trans-unit id="5248717555542428023" datatype="html">
+        <source>Username</source>
+        <target>Nom d'utilisateur</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/registration/registration.component.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5632782983122692144" datatype="html">
+        <source> The registration was successful! </source>
+        <target> L'enregistrement a réussi ! </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/registration/registration.component.html</context>
+          <context context-type="linenumber">24,27</context>
+        </context-group>
+        <note priority="1" from="description">Inform the user that their registration was successful</note>
+        <note priority="1" from="meaning">registration-successful</note>
+      </trans-unit>
+      <trans-unit id="8089535106037038462" datatype="html">
+        <source> Go to the login page </source>
+        <target> Naviguer sur la page d'authentification </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/registration/registration.component.html</context>
+          <context context-type="linenumber">28,32</context>
+        </context-group>
+        <note priority="1" from="description">Link back to the login page from the registration page</note>
+        <note priority="1" from="meaning">registration-back-to-login</note>
+      </trans-unit>
+      <trans-unit id="4099622686312221179" datatype="html">
+        <source>The request could not be sent</source>
+        <target>La requête n'a pas pu être envoyée</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/registration/registration.component.ts</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+        <note priority="1" from="description">request-network-error</note>
+      </trans-unit>
+      <trans-unit id="4603885459063771028" datatype="html">
+        <source>Another user with this email already exists</source>
+        <target>Cette adresse email est déjà utilisée</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/registration/registration.component.ts</context>
+          <context context-type="linenumber">78</context>
+        </context-group>
+        <note priority="1" from="description">registrer-email-conflict</note>
+      </trans-unit>
+      <trans-unit id="2870844130221233019" datatype="html">
+        <source>Another user with this username already exists</source>
+        <target>Ce nom d'utilisateur est déjà utilisé</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/registration/registration.component.ts</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+        <note priority="1" from="description">registrer-username-conflict</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -14,7 +14,8 @@ RUN cd /neutrino && \
 # Build the frontend assets
 COPY frontend-src /neutrino
 RUN cd /neutrino && \
-    npm run build
+    npm run build && \
+    npm run build-fr -- --delete-output-path=false
 
 
 ##
@@ -31,7 +32,9 @@ RUN pip install poetry && \
 # Create the directories
 RUN mkdir neutrino && \
     mkdir /neutrino/pyneutrino /neutrino/migrations && \
-    mkdir /neutrino/pyneutrino/templates /neutrino/pyneutrino/static
+    mkdir /neutrino/pyneutrino/templates && \
+    mkdir /neutrino/pyneutrino/static && \
+    mkdir /neutrino/pyneutrino/static/fr-FR
 
 COPY pyproject.toml poetry.lock /neutrino
 
@@ -63,7 +66,8 @@ RUN mkdir /neutrino
 COPY --from=backend-builder /neutrino /neutrino
 
 # Frontend assets, making a special case for the home.html template
-COPY --from=frontend-builder /neutrino/dist/browser/home.html /neutrino/pyneutrino/templates/
+COPY --from=frontend-builder /neutrino/dist/browser/home.html /neutrino/pyneutrino/templates/home.html
+COPY --from=frontend-builder /neutrino/dist/browser/fr-FR/home.html /neutrino/pyneutrino/templates/home_fr-FR.html
 COPY --from=frontend-builder /neutrino/dist/browser /neutrino/pyneutrino/static/
 
 # Copy entrypoint and configuration

@@ -1,7 +1,7 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { importProvidersFrom } from '@angular/core';
+import { importProvidersFrom, LOCALE_ID, isDevMode } from '@angular/core';
 import { APP_BASE_HREF, DatePipe } from '@angular/common';
 
 
@@ -14,6 +14,15 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(HttpClientModule),
     DatePipe,
     { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true },
-    { provide: APP_BASE_HREF, useValue: "/" },
+    {
+      provide: APP_BASE_HREF,
+      useFactory: (locale: string) => {
+        if (isDevMode()) {
+          return '/'
+        }
+        return `/${locale === 'en-US' ? '' : locale}`
+      },
+      deps: [LOCALE_ID],
+    },
   ]
 };
