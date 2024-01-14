@@ -116,4 +116,6 @@ def get_message_stream():
             except ConnectionError:
                 pass
 
-    return Response(message_stream(), mimetype="text/event-stream")
+    return Response(
+        message_stream(), mimetype="text/event-stream", headers={"X-Accel-Buffering": "no", "Cache-Control": "no-cache"}
+    )
