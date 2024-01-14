@@ -36,7 +36,7 @@ export class HomePageComponent implements OnInit {
   }
 
   handleGetConversationError(err: HttpErrorResponse) {
-    const errMsg = $localize`homepage-get-conversation-error:There was an error when fetching the list of conversations`;
+    const errMsg = $localize`:homepage-get-conversation-error:There was an error when fetching the list of conversations`;
     this.conversationFetchError = errMsg;
 
     console.warn(`An error occured when fetching the list of conversations: ${JSON.stringify(err)}`);

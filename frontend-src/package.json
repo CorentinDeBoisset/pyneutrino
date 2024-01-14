@@ -5,6 +5,7 @@
     "ng": "ng",
     "serve": "ng serve",
     "serve-fr": "ng serve --configuration=dev-fr",
+    "extract-i18n": "ng extract-i18n",
     "build": "ng build --localize",
     "test-watch": "ng test",
     "test": "ng test --watch=false --browser",
