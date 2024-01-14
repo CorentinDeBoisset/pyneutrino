@@ -1,6 +1,6 @@
 from flask import Blueprint, request, session
 from argon2 import PasswordHasher
-from pyneutrino.services import validate_schema, login_user, serialize
+from pyneutrino.services import validate_schema, login_user, serialize, authguard
 from pyneutrino.db import db, UserAccount
 from werkzeug.exceptions import Unauthorized
 from sqlalchemy.exc import NoResultFound
@@ -36,8 +36,12 @@ def login_route():
     if (not session.new) and ("user_id" in session) and (session["user_id"] != user.id):
         session.clear()
 
-    ph = PasswordHasher()
-    if not ph.verify(user.password_hash, json_body["password"]):
+    try:
+        ph = PasswordHasher()
+        # If the password is not valid, argon2 raises an exception
+        ph.verify(user.password_hash, json_body["password"])
+    except BaseException:
+        # TODO: improve logging if the hash or another error occurs
         session.clear()
         raise Unauthorized()
 
@@ -49,6 +53,7 @@ def login_route():
 
 
 @SessionBp.route("/logout", methods=["POST"])
+@authguard
 def logout_route():
     session.clear()
 

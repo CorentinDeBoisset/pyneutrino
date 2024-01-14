@@ -19,6 +19,9 @@ def check_token(header_value: str, expected_value: str):
     :param header_value: The value of the CSRF token sent by the user in a header.
     :param expected_value: The used to serialize the token
     """
+    if current_app.config.get("DISABLE_CSRF", False):
+        return
+
     s = URLSafeSerializer(current_app.config["SECRET_KEY"])
 
     try:
@@ -34,6 +37,9 @@ def check_token(header_value: str, expected_value: str):
 
 @CsrfBp.before_app_request
 def check_csrf_token():
+    if current_app.config.get("DISABLE_CSRF", False):
+        return
+
     # Skip CSRF token validation on non-mutating requests
     if request.method in ("GET", "HEAD"):
         return

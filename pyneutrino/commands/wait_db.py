@@ -6,7 +6,7 @@ from sqlalchemy import text
 from pyneutrino.db import db
 from sqlalchemy.exc import OperationalError
 
-WaitDbBp = Blueprint("wait_db", __name__, cli_group="test")
+WaitDbBp = Blueprint("wait_db", __name__, cli_group=None)
 
 
 @WaitDbBp.cli.command("wait-db")
