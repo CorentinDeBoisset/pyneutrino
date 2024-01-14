@@ -29,7 +29,8 @@
             "outputPath": "dist",
             "browser": "src/main.ts",
             "assets": [
-              { "glob": "**/*", "input": "src/img", "output": "img/" }
+              { "glob": "**/*", "input": "src/img", "output": "img/" },
+              { "glob": "**/*", "input": "src/fonts", "output": "fonts/" }
             ],
             "polyfills": [
               "zone.js"

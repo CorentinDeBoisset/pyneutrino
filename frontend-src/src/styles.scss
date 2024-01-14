@@ -14,9 +14,9 @@
 
 
 	--ultralight-gray-color: #F1F1F1;
-	--light-gray-color: lightgray;
-	--gray-color: gray;
-	--dark-gray-color: darkgray;
+	--light-gray-color: rgb(204, 208, 212);
+	--gray-color: rgb(144, 150, 156);;
+	--dark-gray-color: rgb(67, 69, 71);
 
 	/* standard gutters */
 	/* --column-gutter: 1rem; */
@@ -27,7 +27,9 @@ button,
 input,
 select,
 textarea {
-	font-family: "aktiv-grotesk", sans-serif;
+	font-family: 'roboto', sans-serif;
+	font-style: normal;
+	font-weight: normal;
 	color: var(--text-color);
 }
 
@@ -38,6 +40,13 @@ html,
 
 html {
 	background: radial-gradient(farthest-corner at 70% 70%, #fdfcf7 0%, #f8f5ed 100%);
+	font-size: 17px;
+}
+
+hr {
+	border-color: var(--light-gray-color);
+	border: solid 0.5px;
+	margin: 1rem 0;
 }
 
 .btn {
@@ -441,4 +450,39 @@ progress::-webkit-progress-value {
 	background-color: var(--secondary-color);
 	border-radius: 0.3rem;
 	transition: width 100ms ease;
+}
+
+@font-face {
+	font-family: 'roboto';
+	src: url('fonts/roboto-regular.woff2?#iefix') format('woff2'),
+			 url('fonts/roboto-regular.woff') format('woff'),
+			 url('fonts/roboto-regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'roboto';
+	src: url('fonts/roboto-bold.woff2?#iefix') format('woff2'),
+			 url('fonts/roboto-bold.woff') format('woff'),
+			 url('fonts/roboto-bold.ttf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'roboto';
+	src: url('fonts/roboto-italic.woff2?#iefix') format('woff2'),
+			 url('fonts/roboto-italic.woff') format('woff'),
+			 url('fonts/roboto-italic.ttf') format('truetype');
+	font-weight: normal;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'roboto';
+	src: url('fonts/roboto-light.woff2?#iefix') format('woff2'),
+			 url('fonts/roboto-light.woff') format('woff');
+	font-weight: 300;
+	font-style: normal;
 }
